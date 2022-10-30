@@ -10,32 +10,31 @@ export class Jobs extends Component {
   }
 
   componentDidMount() {
-
     //Add A Job.
 
-  //   const loginData = {
-	// 		username: "admin",
-	// 		password: "Password"
-	// 	};
+    //   const loginData = {
+    // 		username: "admin",
+    // 		password: "Password"
+    // 	};
 
-  //   const formdata = {
-  //     title: "External Post",
-  //     content: "External Post Content",
-  //     status: 'publish'
-  //   };
+    //   const formdata = {
+    //     title: "External Post",
+    //     content: "External Post Content",
+    //     status: 'publish'
+    //   };
 
-  //   const data =  axios.get('/wp-json/wp/v2/posts', formdata, {
-  //     auth: {
-  //       username: "admin",
-  //       password: "",
-  //     },
-  //   })
-  //   .then((res) => {
-  //     console.log(res);			
-  //   })
-  //     .catch((err) => {
-  //         console.log(err)
-  // });
+    //   const data =  axios.get('/wp-json/wp/v2/posts', formdata, {
+    //     auth: {
+    //       username: "admin",
+    //       password: "",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //     .catch((err) => {
+    //         console.log(err)
+    // });
 
     // axios.post('/wp-json/wp/v2/posts', formdata, {
     //   headers: {
@@ -44,16 +43,16 @@ export class Jobs extends Component {
     //         }
     //   })
     //   .then((res) => {
-    //     console.log(res);			
+    //     console.log(res);
     //   })
     //     .catch((err) => {
     //         console.log(err)
     // });
 
-
     // Get All The Jobs.
     axios
-      .get("/wp-json/pmapi/v1/jobs")
+      .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
+      // .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
       .then((res) =>
         this.setState({
           jobs: res.data,
