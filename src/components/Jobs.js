@@ -51,7 +51,7 @@ export class Jobs extends Component {
     console.log(process.env.REACT_APP_BACKENDURL)
     // Get All The Jobs.
     axios
-      .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
+      .get("https://pmapi.bluewindlab.com/wp-json/pmapi/v1/jobs")
 
       // axios
       //   .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs", {
