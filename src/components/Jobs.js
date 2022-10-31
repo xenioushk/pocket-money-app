@@ -48,10 +48,19 @@ export class Jobs extends Component {
     //     .catch((err) => {
     //         console.log(err)
     // });
-
+    console.log(process.env.REACT_APP_BACKENDURL)
     // Get All The Jobs.
     axios
       .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
+
+      // axios
+      //   .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs", {
+      //     headers: {
+      //       "Content-Type": "application/json;charset=UTF-8",
+      //       "Access-Control-Allow-Origin": "*",
+      //     },
+      //   })
+
       // .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
       .then((res) =>
         this.setState({
