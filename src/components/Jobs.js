@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import JobItem from "./JobItem"
+import JobItem from "./Job"
 // import { Link } from "react-router-dom"
 import axios from "axios"
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 // import logo from "./logo.svg"
 // import Jobs from "./components/Jobs"
 // import Search from "./components/Search"

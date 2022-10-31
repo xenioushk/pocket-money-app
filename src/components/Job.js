@@ -1,7 +1,6 @@
-import React from "react"
 import { Link } from "react-router-dom"
 
-const JobItem = ({ job }) => {
+const Job = ({ job }) => {
   return (
     <div className="job-single-item" key={job.id}>
       <h2>
@@ -16,4 +15,4 @@ const JobItem = ({ job }) => {
   )
 }
 
-export default JobItem
+export default Job
