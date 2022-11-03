@@ -2,15 +2,23 @@ import { Link } from "react-router-dom"
 
 const Job = ({ job }) => {
   return (
-    <div className="job-single-item" key={job.id}>
+    <div className="space-y-4 bg-white border-2 border-gray-500 mb-4 p-6" key={job.id}>
       <h2>
-        <Link to={`/job/${job.id}`}>{job.title}</Link>
+        <strong>Task Title:</strong> {job.title}
       </h2>
-      <div dangerouslySetInnerHTML={{ __html: job.excerpt }} />
-      <p className="job-price">Price: &euro; {job.price}</p>
-      <p className="job-price">Category: {job.category}</p>
-      <p className="job-price">Posted By: Mahbub</p>
-      <p className="job-price">Date: {job.date}</p>
+      <div dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + job.excerpt }} />
+      {/* <p className="job-price">Price: &euro; {job.price}</p> */}
+      {/* <p className="job-price">Category: {job.category}</p> */}
+      {/* <p className="job-price">Posted By: Mahbub</p> */}
+      {/* <p className="job-price">Date: {job.date}</p> */}
+      <p className="mb-6">
+        <strong>Duration:</strong> {job.duration} hour(s)
+      </p>
+      <p>
+        <Link to={`/job/${job.id}`} className="bg-gray-600 text-white text-underline-none px-4 py-2 rounded hover:bg-gray-800">
+          Are you interested in this task?
+        </Link>
+      </p>
     </div>
   )
 }
