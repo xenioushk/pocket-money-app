@@ -7,10 +7,13 @@ const Job = ({ job }) => {
         <strong>Task Title:</strong> {job.title}
       </h2>
       <div dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + job.excerpt }} />
+<<<<<<< HEAD
       {/* <p className="job-price">Price: &euro; {job.price}</p> */}
       {/* <p className="job-price">Category: {job.category}</p> */}
       {/* <p className="job-price">Posted By: Mahbub</p> */}
       {/* <p className="job-price">Date: {job.date}</p> */}
+=======
+>>>>>>> main
       <p className="mb-6">
         <strong>Duration:</strong> {job.duration} hour(s)
       </p>
