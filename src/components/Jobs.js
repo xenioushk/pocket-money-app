@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import JobItem from "./Job"
-// import { Link } from "react-router-dom"
 import axios from "axios"
 
 export class Jobs extends Component {
@@ -48,7 +47,7 @@ export class Jobs extends Component {
     //     .catch((err) => {
     //         console.log(err)
     // });
-    console.log(process.env.REACT_APP_BACKENDURL)
+    console.log(axios.defaults.baseURL)
     // Get All The Jobs.
     axios
       .get("/wp-json/pmapi/v1/jobs")
@@ -79,7 +78,7 @@ export class Jobs extends Component {
     if (isLoaded) {
       return (
         <div className="container mx-auto flex items-center">
-          <div class="grid grid-cols-1 gap-y-4">
+          <div className="grid grid-cols-1 gap-y-4">
             {jobs.map((job, index) => (
               <JobItem key={index} job={job} />
             ))}
