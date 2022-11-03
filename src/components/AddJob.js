@@ -27,7 +27,7 @@ const AddJob = () => {
       console.log("Contact Required.")
     }
 
-    if (isValid == true) {
+    if (isValid === true) {
       alert("Submit Form")
     }
 
