@@ -51,7 +51,7 @@ export class Jobs extends Component {
     console.log(process.env.REACT_APP_BACKENDURL)
     // Get All The Jobs.
     axios
-      .get("https://pmapi.bluewindlab.com/wp-json/pmapi/v1/jobs")
+      .get("/wp-json/pmapi/v1/jobs")
 
       // axios
       //   .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs", {
@@ -78,10 +78,12 @@ export class Jobs extends Component {
 
     if (isLoaded) {
       return (
-        <div>
-          {jobs.map((job, index) => (
-            <JobItem key={index} job={job} />
-          ))}
+        <div className="container mx-auto flex items-center">
+          <div class="grid grid-cols-1 gap-y-4">
+            {jobs.map((job, index) => (
+              <JobItem key={index} job={job} />
+            ))}
+          </div>
         </div>
       )
     }
