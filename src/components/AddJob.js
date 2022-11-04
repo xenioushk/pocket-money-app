@@ -5,17 +5,17 @@ import FormLabel from "./form/FormLabel"
 
 const AddJob = () => {
   const [status, setStatus] = useState(0)
-  const [firstname, setFirstName] = useState("Mahbub")
-  const [lastname, setLastName] = useState("Alam")
-  const [contact, setContact] = useState("098726364")
-  const [email, setEmail] = useState("hkhan.cse@gmail.com")
-  const [address, setAddress] = useState("Annalankatu,111 A12")
-  const [city, setCity] = useState("Tampere")
-  const [zipcode, setZipcode] = useState("33170")
+  const [firstname, setFirstName] = useState("")
+  const [lastname, setLastName] = useState("")
+  const [contact, setContact] = useState("")
+  const [email, setEmail] = useState("")
+  const [address, setAddress] = useState("")
+  const [city, setCity] = useState("")
+  const [zipcode, setZipcode] = useState("")
 
-  const [taskTitle, setTaskTitle] = useState("Baby Sitting")
-  const [taskDetails, settaskDetails] = useState("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")
-  const [taskDuration, setTaskDuration] = useState("1")
+  const [taskTitle, setTaskTitle] = useState("")
+  const [taskDetails, settaskDetails] = useState("")
+  const [taskDuration, setTaskDuration] = useState("")
 
   // useEffect(() => {
   //   setStatus(1)
