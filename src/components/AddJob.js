@@ -20,6 +20,7 @@ const AddJob = () => {
   // useEffect(() => {
   //   setStatus(1)
   // }, [status])
+
   //functions.
 
   const resetFields = () => {
@@ -120,6 +121,7 @@ const AddJob = () => {
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className="bg-white px-4 py-5 sm:p-6">
                   <div className="grid grid-cols-8 gap-6">
+
                     <FormHeading title="Contact Details of Taks Poster" />
                     {/* First Name */}
                     <div className="col-span-4">
@@ -168,12 +170,14 @@ const AddJob = () => {
                     <div className="col-span-8">
                       <FormLabel id="taskDetails" title=" Details of the task" />
                       <textarea name="taskDetails" id="taskDetails" value={taskDetails} onChange={(e) => settaskDetails(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+
                     </div>
 
                     {/* Duration of the Task */}
                     <div className="col-span-8">
                       <FormLabel id="taskDuration" title="Duration of the task" />
                       <input type="text" name="taskDuration" id="taskDuration" value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+
                     </div>
                   </div>
                 </div>
