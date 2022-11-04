@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import FormHeading from "./form/FormHeading"
 import axios from "axios"
-import { useState } from "react"
+import FormLabel from "./form/FormLabel"
 
 const AddJob = () => {
+  const [status, setStatus] = useState(0)
   const [firstname, setFirstName] = useState("Mahbub")
   const [lastname, setLastName] = useState("Alam")
   const [contact, setContact] = useState("098726364")
@@ -16,6 +17,9 @@ const AddJob = () => {
   const [taskDetails, settaskDetails] = useState("Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.")
   const [taskDuration, setTaskDuration] = useState("1")
 
+  // useEffect(() => {
+  //   setStatus(1)
+  // }, [status])
   //functions.
 
   const resetFields = () => {
@@ -23,12 +27,15 @@ const AddJob = () => {
     setLastName("")
     setContact("")
     setEmail("")
+    setCity("")
+    setZipcode("")
+    setAddress("")
     setTaskTitle("")
     settaskDetails("")
     setTaskDuration("")
   }
 
-  const newPost = {
+  const newJob = {
     userId: 1,
     taskTitle: taskTitle,
     taskDetails: taskDetails,
@@ -37,7 +44,7 @@ const AddJob = () => {
 
   const sendPostRequest = async () => {
     try {
-      const resp = await axios.post("/wp-json/pmapi/v1/create", newPost)
+      const resp = await axios.post("/wp-json/pmapi/v1/create", newJob)
       // console.log(resp.data)
       resetFields()
     } catch (err) {
@@ -45,6 +52,8 @@ const AddJob = () => {
       console.error(err)
     }
   }
+  // Error Class.
+  // border-red-500
 
   const handleSubmit = async (e) => {
     var isValid = true
@@ -89,13 +98,19 @@ const AddJob = () => {
 
     // sendPostRequest()
 
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    setStatus(1)
+    setTimeout(() => {
+      setStatus(0)
+    }, 3000)
     e.preventDefault()
   }
 
   return (
     <>
       <div>
-        <div className="flex flex-wrap  justify-center mt-20">
+        <div className={`text-center bg-brightRed justify-center mx-auto w-1/3 p-3 text-white ${status ? "" : "hidden"}`}>Job created successfully!</div>
+        <div className="flex flex-wrap justify-center mt-20">
           <h1 className="text-4xl underline underline-offset-4">Post a Task</h1>
         </div>
 
@@ -108,77 +123,56 @@ const AddJob = () => {
                     <FormHeading title="Contact Details of Taks Poster" />
                     {/* First Name */}
                     <div className="col-span-4">
-                      <label htmlFor="firstname" className="text-left block text-sm font-medium text-gray-700">
-                        First name
-                      </label>
+                      <FormLabel id="firstname" title="First Name" />
                       <input type="text" name="firstname" id="firstname" value={firstname} onChange={(e) => setFirstName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* Last Name */}
                     <div className="col-span-4">
-                      <label htmlFor="lastname" className="text-left block  text-sm font-medium text-gray-700">
-                        Last name
-                      </label>
+                      <FormLabel id="lastname" title="Last Name" required={false} />
                       <input type="text" name="lastname" id="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* Email */}
                     <div className="col-span-4">
-                      <label htmlFor="email" className="text-left block text-sm font-medium text-gray-700">
-                        Email address
-                      </label>
+                      <FormLabel id="email" title="Email" />
                       <input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* Contact */}
                     <div className="col-span-4">
-                      <label htmlFor="contact" className="text-left block text-sm font-medium text-gray-700">
-                        Contact
-                      </label>
+                      <FormLabel id="contact" title="Contact" />
                       <input type="text" name="contact" id="contact" value={contact} onChange={(e) => setContact(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* Street Address */}
                     <div className="col-span-8">
-                      <label htmlFor="address" className="text-left block text-sm font-medium text-gray-700">
-                        Address
-                      </label>
-
+                      <FormLabel id="address" title="Address" />
                       <textarea name="address" id="address" value={address} onChange={(e) => setAddress(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
                     </div>
                     {/* City */}
                     <div className="col-span-4">
-                      <label htmlFor="city" className="text-left block text-sm font-medium text-gray-700">
-                        City
-                      </label>
+                      <FormLabel id="city" title="City" />
                       <input type="text" name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* ZIP */}
                     <div className="col-span-4">
-                      <label htmlFor="zipcode" className="text-left block text-sm font-medium text-gray-700">
-                        ZIP / Postal code
-                      </label>
+                      <FormLabel id="zipcode" title="Zip / Postal code" />
                       <input type="text" name="zipcode" id="zipcode" value={zipcode} onChange={(e) => setZipcode(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
 
                     <FormHeading title="Description of Task" />
                     {/* Title of the Task */}
                     <div className="col-span-8">
-                      <label htmlFor="taskTitle" className="text-left block text-sm font-medium text-gray-700">
-                        Title of the task <small className="text-red">*</small>
-                      </label>
+                      <FormLabel id="taskTitle" title="Title of the task" />
                       <input type="text" name="taskTitle" id="taskTitle" value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
 
                     {/* Details of the Task */}
                     <div className="col-span-8">
-                      <label htmlFor="taskDetails" className="text-left block text-sm font-medium text-gray-700">
-                        Details of the task <small className="text-red">*</small>
-                      </label>
+                      <FormLabel id="taskDetails" title=" Details of the task" />
                       <textarea name="taskDetails" id="taskDetails" value={taskDetails} onChange={(e) => settaskDetails(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
                     </div>
 
                     {/* Duration of the Task */}
                     <div className="col-span-8">
-                      <label htmlFor="taskDuration" className="text-left block text-sm font-medium text-gray-700">
-                        Duration of the task <small className="text-red">*</small>
-                      </label>
+                      <FormLabel id="taskDuration" title="Duration of the task" />
                       <input type="text" name="taskDuration" id="taskDuration" value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                   </div>
