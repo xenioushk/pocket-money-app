@@ -1,93 +1,76 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import JobItem from "./Job"
 import axios from "axios"
 
-export class Jobs extends Component {
-  state = {
-    jobs: [],
-    isLoaded: false,
-  }
+const Jobs = () => {
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [jobs, setJobs] = useState([])
+  const [maxPages, setMaxPages] = useState(1)
+  // const [limit, setLimit] = useState(5)
+  const [page, setPage] = useState(1)
+  const [loadMoreBtn, setLoadMoreBtn] = useState(0)
 
-  componentDidMount() {
-    //Add A Job.
+  useEffect(() => {
+    // GET request using axios inside useEffect React hook
 
-    //   const loginData = {
-    // 		username: "admin",
-    // 		password: "Password"
-    // 	};
+    const fetchData = () => {
+      axios
+        .get(`/wp-json/pmapi/v1/jobs?limit=5&&page=${page}`)
+        .then((res) => {
+          setMaxPages(res.data.max_pages)
+          setIsLoaded(true)
 
-    //   const formdata = {
-    //     title: "External Post",
-    //     content: "External Post Content",
-    //     status: 'publish'
-    //   };
+          // maximum number of page value is greater than 1 then we are going to show the button.
 
-    //   const data =  axios.get('/wp-json/wp/v2/posts', formdata, {
-    //     auth: {
-    //       username: "admin",
-    //       password: "",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //     .catch((err) => {
-    //         console.log(err)
-    // });
+          res.data.max_pages > 1 ? setLoadMoreBtn(1) : setLoadMoreBtn(0)
 
-    // axios.post('/wp-json/wp/v2/posts', formdata, {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-    //         }
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //     .catch((err) => {
-    //         console.log(err)
-    // });
-    console.log(axios.defaults.baseURL)
-    // Get All The Jobs.
-    axios
-      .get("/wp-json/pmapi/v1/jobs")
-
-      // axios
-      //   .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs", {
-      //     headers: {
-      //       "Content-Type": "application/json;charset=UTF-8",
-      //       "Access-Control-Allow-Origin": "*",
-      //     },
-      //   })
-
-      // .get(process.env.REACT_APP_BACKENDURL + "/wp-json/pmapi/v1/jobs")
-      .then((res) =>
-        this.setState({
-          jobs: res.data,
-          isLoaded: true,
+          // setJobs(jobs.push(res.data.job_data))
+          setJobs((prev) => prev.concat(res.data.job_data))
         })
-      )
-      .catch((err) => console.log(err))
+        .catch((err) => console.log(err))
+    }
+
+    fetchData()
+  }, [page])
+
+  const onClick = (e) => {
+    //Remove it later.
+
+    // setLimit((prev) => prev)
+
+    let currentPage
+    setPage((currentPage = parseInt(page) + 1))
+
+    if (currentPage === maxPages) {
+      e.target.remove()
+    }
   }
 
-  render() {
-    // console.log(this.state)
-
-    const { jobs, isLoaded } = this.state
-
-    if (isLoaded) {
-      return (
-        <div className="container mx-auto flex items-center">
+  return (
+    <>
+      {isLoaded ? (
+        <div className="container mx-auto items-center">
           <div className="grid grid-cols-1 gap-y-4">
             {jobs.map((job, index) => (
               <JobItem key={index} job={job} />
             ))}
           </div>
+
+          {loadMoreBtn ? (
+            <div className="grid grid-cols-1 gap-y-4">
+              <button className="btn border-2 btn-inline p-3" onClick={onClick}>
+                Load More
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-      )
-    }
-    return <div className="text-center">Loading...</div>
-  }
+      ) : (
+        <div className="text-center">Loading...</div>
+      )}
+    </>
+  )
 }
 
 export default Jobs

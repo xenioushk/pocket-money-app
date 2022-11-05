@@ -6,7 +6,7 @@ import Footer from "./components/Footer"
 import Home from "./components/Home"
 import AboutUs from "./components/AboutUs"
 import AddJob from "./components/AddJob"
-import Search from "./components/Search"
+import SearchBox from "./components/SearchBox"
 import Terms from "./components/Terms"
 import SingleJob from "./components/SingleJob"
 
@@ -19,7 +19,7 @@ function App() {
         <Route path="/add-job" element={<AddJob />} />
         <Route path="/job/:id" element={<SingleJob />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/search-job" element={<Search />} />
+        <Route path="/search-job" element={<SearchBox />} />
         <Route path="/terms" element={<Terms />} />
       </Routes>
       <Footer />
