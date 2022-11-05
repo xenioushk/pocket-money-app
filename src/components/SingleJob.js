@@ -7,8 +7,6 @@ const SingleJob = () => {
   // get ID from url
   const params = useParams()
 
-  // console.log(params.id) // {userId: '4200'}
-
   const [isLoaded, setIsLoaded] = useState(false)
   const [singleJob, setSingleJob] = useState([])
 
