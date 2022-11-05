@@ -4,8 +4,8 @@ import PropTypes from "prop-types"
 const JobItem = (props) => {
   return (
     <div className="space-y-4 bg-white border-2 border-gray-500 mb-4 p-6" key={props.job.id}>
-      <h2>
-        <strong>Task Title:</strong> {props.job.title}
+      <h2 className="text-2xl">
+        <strong>Task:</strong> {props.job.title}
       </h2>
       <div dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + props.job.excerpt }} />
       <p className="mb-6">
@@ -13,7 +13,7 @@ const JobItem = (props) => {
       </p>
 
       {!props.single ? (
-        <p>
+        <p className="mb-6">
           <Link to={`/job/${props.job.id}`} className="bg-gray-600 text-white text-underline-none px-4 py-2 rounded hover:bg-gray-800">
             Are you interested in this task?
           </Link>
