@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import JobItem from "./Job"
+import JobItem from "./JobItem"
 import axios from "axios"
 
 const Jobs = () => {
@@ -52,7 +52,7 @@ const Jobs = () => {
         <div className="container mx-auto items-center">
           <div className="grid grid-cols-1 gap-y-4">
             {jobs.map((job, index) => (
-              <JobItem key={index} job={job} />
+              <JobItem key={index} job={job} single={false} />
             ))}
           </div>
 
