@@ -58,7 +58,7 @@ const Jobs = () => {
 
           {loadMoreBtn ? (
             <div className="grid grid-cols-1 gap-y-4">
-              <button className="btn border-2 btn-inline p-3" onClick={onClick}>
+              <button className="bg-gray-600 text-white text-underline-none px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 w-1/4 mx-auto" onClick={onClick}>
                 Load More
               </button>
             </div>
