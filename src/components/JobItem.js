@@ -24,30 +24,28 @@ const JobItem = (props) => {
             <strong>Category:</strong> {props.job.category}
           </p>
           <p className="mb-6">
-            <strong>Price:</strong> {props.job.price}
+            <strong>Price:</strong> &euro; {props.job.price}
           </p>
           <p className="mb-6">
             <strong>Post Date:</strong> {props.job.date}
           </p>
-          <p className="mb-6">
-            <strong>Duration:</strong> {props.job.duration}
-          </p>
 
-          <h3 className="text-3xl">Contact Details:</h3>
+          <h3 className="text-3xl border block border-0 border-b-2 pb-2">Contact Details:</h3>
+
           <p className="mb-6">
-            <strong>Posted By:</strong> {props.job.category}
+            <strong>Posted By:</strong> {props.job.first_name} {props.job.last_name}
           </p>
           <p className="mb-6">
-            <strong>Email:</strong> {props.job.category}
+            <strong>Email:</strong> {props.job.email}
           </p>
           <p className="mb-6">
-            <strong>Phone:</strong> {props.job.category}
+            <strong>Phone:</strong> {props.job.contact}
           </p>
           <p className="mb-6">
-            <strong>Location:</strong> {props.job.category}
+            <strong>Location:</strong> {props.job.city}
           </p>
           <p className="mb-6">
-            <strong>Address:</strong> {props.job.category}
+            <strong>Address:</strong> {props.job.address}
           </p>
         </>
       )}
