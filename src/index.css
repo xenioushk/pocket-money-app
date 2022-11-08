@@ -7,3 +7,20 @@
     font-family: Proxima Nova, system-ui, sans-serif;
   }
 }
+
+.form-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.form-overlay::before {
+  width: 100%;
+  height: 1000px;
+  background: rgba(0, 0, 0, 0.7);
+  content: "Please Wait ....";
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
