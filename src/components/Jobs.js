@@ -15,7 +15,7 @@ const Jobs = () => {
 
     const fetchData = () => {
       axios
-        .get(`/wp-json/pmapi/v1/jobs?limit=5&&page=${page}`)
+        .get(`/wp-json/pmapi/v1/jobs?limit=3&&page=${page}`)
         .then((res) => {
           setMaxPages(res.data.max_pages)
           setIsLoaded(true)
