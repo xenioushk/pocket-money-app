@@ -2,8 +2,14 @@ import React, { useState } from "react"
 import FormHeading from "./form/FormHeading"
 import axios from "axios"
 import FormLabel from "./form/FormLabel"
+import { useForm } from "react-hook-form";
+
 
 const AddJob = () => {
+
+const { register, handleSubmit, watch, formState: { errors } } = useForm();
+const warningText = 'text-red-500';
+
   const [status, setStatus] = useState(0)
   const [firstname, setFirstName] = useState("")
   const [lastname, setLastName] = useState("")
@@ -56,7 +62,7 @@ const AddJob = () => {
   // Error Class.
   // border-red-500
 
-  const handleSubmit = async (e) => {
+  {/*const handleSubmit = async (e) => {
     var isValid = true
 
     if (firstname.trim() === "") {
@@ -106,7 +112,7 @@ const AddJob = () => {
     }, 3000)
     e.preventDefault()
   }
-
+*/}
   return (
     <>
       <div>
@@ -115,7 +121,7 @@ const AddJob = () => {
           <h1 className="text-4xl underline underline-offset-4">Post a Task</h1>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit()}>
           <div className="mt-10 sm:mt-0">
             <div className="mt-5 flex flex-wrap justify-center">
               <div className="overflow-hidden shadow sm:rounded-md">
@@ -125,56 +131,65 @@ const AddJob = () => {
                     {/* First Name */}
                     <div className="col-span-4">
                       <FormLabel id="firstname" title="First Name" />
-                      <input type="text" name="firstname" id="firstname" value={firstname} onChange={(e) => setFirstName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="firstname" id="firstname" {...register("firstNameRequired", { required: true })} value={firstname} onChange={(e) => setFirstName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.firstNameRequired && <span className={warningText}>First Name is required</span>}
                     </div>
                     {/* Last Name */}
                     <div className="col-span-4">
                       <FormLabel id="lastname" title="Last Name" required={false} />
-                      <input type="text" name="lastname" id="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="lastname" id="lastname"  value={lastname} onChange={(e) => setLastName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
                     </div>
                     {/* Email */}
                     <div className="col-span-4">
                       <FormLabel id="email" title="Email" />
-                      <input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="email" id="email" {...register("emailRequired", { required: true })} value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.emailRequired && <span className={warningText}>Email is required</span>}
                     </div>
                     {/* Contact */}
                     <div className="col-span-4">
                       <FormLabel id="contact" title="Contact" />
-                      <input type="text" name="contact" id="contact" value={contact} onChange={(e) => setContact(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="contact" id="contact" {...register("contactRequired", { required: true })} value={contact} onChange={(e) => setContact(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.contactRequired && <span className={warningText}>Contact is required</span>}
                     </div>
                     {/* Street Address */}
                     <div className="col-span-8">
                       <FormLabel id="address" title="Address" />
-                      <textarea name="address" id="address" value={address} onChange={(e) => setAddress(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      <textarea name="address" id="address" {...register("addressRequired", { required: true })} value={address} onChange={(e) => setAddress(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      {errors.addressRequired && <span className={warningText}>Address is required</span>}
                     </div>
                     {/* City */}
                     <div className="col-span-4">
                       <FormLabel id="city" title="City" />
-                      <input type="text" name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="city" id="city" {...register("cityRequired", { required: true })} value={city} onChange={(e) => setCity(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.cityRequired && <span className={warningText}>City is required</span>}
                     </div>
                     {/* ZIP */}
                     <div className="col-span-4">
                       <FormLabel id="zipcode" title="Zip / Postal code" />
-                      <input type="text" name="zipcode" id="zipcode" value={zipcode} onChange={(e) => setZipcode(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="zipcode" id="zipcode" {...register("zipRequired", { required: true })} value={zipcode} onChange={(e) => setZipcode(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.zipRequired && <span className={warningText}>Zip number is required</span>}
                     </div>
 
                     <FormHeading title="Description of Task" />
                     {/* Title of the Task */}
                     <div className="col-span-8">
                       <FormLabel id="taskTitle" title="Title of the task" />
-                      <input type="text" name="taskTitle" id="taskTitle" value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="taskTitle" id="taskTitle" {...register("titleRequired", { required: true })} value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.titleRequired && <span className={warningText}>Task title is required</span>}
                     </div>
 
                     {/* Details of the Task */}
                     <div className="col-span-8">
                       <FormLabel id="taskDetails" title=" Details of the task" />
-                      <textarea name="taskDetails" id="taskDetails" value={taskDetails} onChange={(e) => settaskDetails(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      <textarea name="taskDetails" id="taskDetails" {...register("taskDetailsRequired", { required: true })} value={taskDetails} onChange={(e) => settaskDetails(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      {errors.taskDetailsRequired && <span className={warningText}>Details of the task is required</span>}
                     </div>
 
                     {/* Duration of the Task */}
                     <div className="col-span-8">
                       <FormLabel id="taskDuration" title="Duration of the task" />
-                      <input type="text" name="taskDuration" id="taskDuration" value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" name="taskDuration" id="taskDuration" {...register("taskDurationRequired", { required: true })} value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskDurationRequired && <span className={warningText}>Duration of the task is required</span>}
                     </div>
                   </div>
                 </div>
