@@ -3,16 +3,19 @@ import PropTypes from "prop-types"
 
 const JobItem = (props) => {
   return (
-    <div className="space-y-4 bg-white border-2 border-gray-500 mb-4 p-6" key={props.job.id}>
+    <div className="space-y-5 bg-white border-2 border-gray-500 mb-4 p-2 md:p-6" key={props.job.id}>
       <h2 className="text-2xl">{props.job.title}</h2>
-      <div dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + props.job.excerpt }} />
+      <div className={!props.single ? "hidden md:block" : "block"} dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + props.job.excerpt }} />
+      <p className="mb-6">
+        <strong>Price:</strong> &euro; {props.job.price}
+      </p>
       <p className="mb-6">
         <strong>Duration:</strong> {props.job.duration} hour(s)
       </p>
 
       {!props.single ? (
         <p className="mb-6">
-          <Link to={`/job/${props.job.id}`} className="bg-gray-600 text-white text-underline-none px-4 py-2 rounded hover:bg-gray-800">
+          <Link to={`/job/${props.job.id}`} className="bg-gray-600 text-white text-underline-none p-2 block rounded hover:bg-gray-800 md:px-4 py-2 inline-block">
             Are you interested in this task?
           </Link>
         </p>
@@ -21,9 +24,7 @@ const JobItem = (props) => {
           <p className="mb-6">
             <strong>Category:</strong> {props.job.category}
           </p>
-          <p className="mb-6">
-            <strong>Price:</strong> &euro; {props.job.price}
-          </p>
+
           <p className="mb-6">
             <strong>Post Date:</strong> {props.job.date}
           </p>
