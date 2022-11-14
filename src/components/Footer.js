@@ -14,7 +14,7 @@ const Footer = () => {
               Home
             </Link>
             <Link to="/about-us" className="text-gray-700 hover:text-gray-800">
-              About
+              About Us
             </Link>
             <Link to="/terms" className="text-gray-700 hover:text-gray-800">
               Terms
