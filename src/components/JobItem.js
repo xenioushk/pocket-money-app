@@ -4,9 +4,7 @@ import PropTypes from "prop-types"
 const JobItem = (props) => {
   return (
     <div className="space-y-4 bg-white border-2 border-gray-500 mb-4 p-6" key={props.job.id}>
-      <h2 className="text-2xl">
-        <strong>Task:</strong> {props.job.title}
-      </h2>
+      <h2 className="text-2xl">{props.job.title}</h2>
       <div dangerouslySetInnerHTML={{ __html: "<strong>Description: </strong>" + props.job.excerpt }} />
       <p className="mb-6">
         <strong>Duration:</strong> {props.job.duration} hour(s)

@@ -20,8 +20,6 @@ const Header = () => {
               Search A Task
             </Link>
           </div>
-
-          {/* <Link to ="#" className="hidden p-3 px-6 pt-2 text-white bg-brightRed rounded-full baseline hover:bg-brightRedLight md:block">Get Started</Link> */}
         </div>
       </nav>
       <hr className="mb-4" />
