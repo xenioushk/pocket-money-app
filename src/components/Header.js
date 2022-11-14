@@ -13,11 +13,8 @@ const Header = () => {
           </div>
 
           <div className="space-x-6 text-right md:flex">
-            <Link to="/add-job" className="text-gray-700 hover:text-gray-800">
+            <Link to="/add-job" className="px-4 py-2 text-white bg-darkGrayishBlue rounded-full hover:text-gray-800">
               Post A Task
-            </Link>
-            <Link to="/search-job" className="text-gray-700 hover:text-gray-800 bg-blue">
-              Search A Task
             </Link>
           </div>
         </div>
