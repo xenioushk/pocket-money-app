@@ -2,6 +2,46 @@ import React, { useState } from "react"
 import FormHeading from "./form/FormHeading"
 import axios from "axios"
 import FormLabel from "./form/FormLabel"
+<<<<<<< HEAD
+import { useForm } from "react-hook-form";
+
+
+const AddJob = () => {
+
+const { register, handleSubmit, watch, formState: { errors } } = useForm();
+const warningText = 'text-red-500';
+
+  const [status, setStatus] = useState(0)
+  const [firstname, setFirstName] = useState("")
+  const [lastname, setLastName] = useState("")
+  const [contact, setContact] = useState("")
+  const [email, setEmail] = useState("")
+  const [address, setAddress] = useState("")
+  const [city, setCity] = useState("")
+  const [zipcode, setZipcode] = useState("")
+
+  const [taskTitle, setTaskTitle] = useState("")
+  const [taskDetails, settaskDetails] = useState("")
+  const [taskDuration, setTaskDuration] = useState("")
+
+  // useEffect(() => {
+  //   setStatus(1)
+  // }, [status])
+
+  //functions.
+
+  const resetFields = () => {
+    setFirstName("")
+    setLastName("")
+    setContact("")
+    setEmail("")
+    setCity("")
+    setZipcode("")
+    setAddress("")
+    setTaskTitle("")
+    settaskDetails("")
+    setTaskDuration("")
+=======
 import { useForm } from "react-hook-form"
 
 const AddJob = () => {
@@ -18,6 +58,7 @@ const AddJob = () => {
     taskDetails: "",
     taskDuration: "",
     taskPrice: "",
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
   }
 
   const {
@@ -74,6 +115,62 @@ const AddJob = () => {
       console.error(err)
     }
   }
+<<<<<<< HEAD
+  // Error Class.
+  // border-red-500
+
+  {/*const handleSubmit = async (e) => {
+    var isValid = true
+
+    if (firstname.trim() === "") {
+      isValid = false
+      console.log("Firstname Required.")
+    }
+
+    if (lastname.trim() === "") {
+      console.log("Lastname Required.")
+    }
+
+    if (contact.trim() === "") {
+      console.log("Contact Required.")
+    }
+
+    if (taskTitle.trim() === "") {
+      isValid = false
+      console.log("Task Title Required.")
+    }
+
+    if (taskDetails.trim() === "") {
+      isValid = false
+      console.log("Task Details Required.")
+    }
+
+    if (isValid === true) {
+      sendPostRequest()
+    }
+
+    // console.log(firstname)
+    // console.log(lastname)
+    // console.log(email)
+    // console.log(contact)
+    // console.log(address)
+    // console.log(city)
+    // console.log(zipcode)
+    // console.log(taskTitle)
+    // console.log(taskDetails)
+    // console.log(taskDuration)
+
+    // sendPostRequest()
+
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    setStatus(1)
+    setTimeout(() => {
+      setStatus(0)
+    }, 3000)
+    e.preventDefault()
+  }
+*/}
+=======
   const onSubmit = (data) => {
     // console.log(data)
     setsubmitBtn(1)
@@ -87,6 +184,7 @@ const AddJob = () => {
   const [formOverLay, setformOverLay] = useState(0)
   const [submitBtn, setsubmitBtn] = useState(0)
 
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
   return (
     <>
       <div>
@@ -95,7 +193,11 @@ const AddJob = () => {
           <h1 className="text-4xl underline underline-offset-4">Post a Task</h1>
         </div>
 
+<<<<<<< HEAD
+        <form onSubmit={handleSubmit()}>
+=======
         <form onSubmit={handleSubmit(onSubmit)}>
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
           <div className="mt-10 sm:mt-0">
             <div className="mt-5 flex flex-wrap justify-center">
               <div className="overflow-hidden shadow sm:rounded-md">
@@ -103,6 +205,17 @@ const AddJob = () => {
                   <div className="grid grid-cols-10 gap-6">
                     <FormHeading title="Contact Details of Taks Poster" />
                     {/* First Name */}
+<<<<<<< HEAD
+                    <div className="col-span-4">
+                      <FormLabel id="firstname" title="First Name" />
+                      <input type="text" name="firstname" id="firstname" {...register("firstNameRequired", { required: true })} value={firstname} onChange={(e) => setFirstName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.firstNameRequired && <span className={warningText}>First Name is required</span>}
+                    </div>
+                    {/* Last Name */}
+                    <div className="col-span-4">
+                      <FormLabel id="lastname" title="Last Name" required={false} />
+                      <input type="text" name="lastname" id="lastname"  value={lastname} onChange={(e) => setLastName(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+=======
                     <div className="col-span-5">
                       <FormLabel id="firstName" title="First Name" />
                       <input type="text" name="firstName" id="firstName" {...register("firstName", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
@@ -112,28 +225,54 @@ const AddJob = () => {
                     <div className="col-span-5">
                       <FormLabel id="lastName" title="Last Name" required={false} />
                       <input type="text" name="lastName" id="lastName" {...register("lastName")} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
                     {/* Email */}
                     <div className="col-span-5">
                       <FormLabel id="email" title="Email" />
+<<<<<<< HEAD
+                      <input type="text" name="email" id="email" {...register("emailRequired", { required: true })} value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.emailRequired && <span className={warningText}>Email is required</span>}
+=======
                       <input type="text" name="email" id="email" {...register("email", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
                       {errors.email && <span className={warningText}>Email is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
                     {/* Contact */}
                     <div className="col-span-5">
                       <FormLabel id="contact" title="Contact" />
+<<<<<<< HEAD
+                      <input type="text" name="contact" id="contact" {...register("contactRequired", { required: true })} value={contact} onChange={(e) => setContact(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.contactRequired && <span className={warningText}>Contact is required</span>}
+=======
                       <input type="text" name="contact" id="contact" {...register("contact", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
                       {errors.contact && <span className={warningText}>Contact is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
                     {/* Street Address */}
                     <div className="col-span-10">
                       <FormLabel id="address" title="Address" />
+<<<<<<< HEAD
+                      <textarea name="address" id="address" {...register("addressRequired", { required: true })} value={address} onChange={(e) => setAddress(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      {errors.addressRequired && <span className={warningText}>Address is required</span>}
+=======
                       <textarea name="address" id="address" {...register("address", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
                       {errors.address && <span className={warningText}>Address is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
                     {/* City */}
                     <div className="col-span-5">
                       <FormLabel id="city" title="City" />
+<<<<<<< HEAD
+                      <input type="text" name="city" id="city" {...register("cityRequired", { required: true })} value={city} onChange={(e) => setCity(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.cityRequired && <span className={warningText}>City is required</span>}
+                    </div>
+                    {/* ZIP */}
+                    <div className="col-span-4">
+                      <FormLabel id="zipcode" title="Zip / Postal code" />
+                      <input type="text" name="zipcode" id="zipcode" {...register("zipRequired", { required: true })} value={zipcode} onChange={(e) => setZipcode(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.zipRequired && <span className={warningText}>Zip number is required</span>}
+=======
                       <select name="city" id="city" className="w-full mt-1 p-2 rounded" {...register("city", { required: true })}>
                         <option value="">Select</option>
                         <option value="Helsinki">Helsinki</option>
@@ -146,6 +285,7 @@ const AddJob = () => {
                       <FormLabel id="zipCode" title="Zip / Postal code" />
                       <input type="text" name="zipCode" id="zipCode" {...register("zipCode", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
                       {errors.zipCode && <span className={warningText}>Zip number is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
 
                     <FormHeading title="Description of Task" />
@@ -167,15 +307,25 @@ const AddJob = () => {
                     {/* Title of the Task */}
                     <div className="col-span-10">
                       <FormLabel id="taskTitle" title="Title of the task" />
+<<<<<<< HEAD
+                      <input type="text" name="taskTitle" id="taskTitle" {...register("titleRequired", { required: true })} value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.titleRequired && <span className={warningText}>Task title is required</span>}
+=======
                       <input type="text" name="taskTitle" id="taskTitle" {...register("taskTitle", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
                       {errors.taskTitle && <span className={warningText}>Task title is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
 
                     {/* Details of the Task */}
                     <div className="col-span-10">
                       <FormLabel id="taskDetails" title=" Details of the task" />
+<<<<<<< HEAD
+                      <textarea name="taskDetails" id="taskDetails" {...register("taskDetailsRequired", { required: true })} value={taskDetails} onChange={(e) => settaskDetails(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      {errors.taskDetailsRequired && <span className={warningText}>Details of the task is required</span>}
+=======
                       <textarea name="taskDetails" id="taskDetails" {...register("taskDetails", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
                       {errors.taskDetails && <span className={warningText}>Details of the task is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
 
                     {/* Duration of the Task */}
@@ -188,8 +338,13 @@ const AddJob = () => {
                     {/* Duration of the Task */}
                     <div className="col-span-10">
                       <FormLabel id="taskDuration" title="Duration of the task" />
+<<<<<<< HEAD
+                      <input type="text" name="taskDuration" id="taskDuration" {...register("taskDurationRequired", { required: true })} value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="p-2 mt-2 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskDurationRequired && <span className={warningText}>Duration of the task is required</span>}
+=======
                       <input type="text" name="taskDuration" id="taskDuration" {...register("taskDuration", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
                       {errors.taskDuration && <span className={warningText}>Duration of the task is required</span>}
+>>>>>>> b95b1771fbd45780831fe0c2284c6eb43f5624f4
                     </div>
                   </div>
                 </div>
