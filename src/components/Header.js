@@ -1,26 +1,28 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import logo from "../logo.png" // Tell webpack this JS file uses this image
 
 const Header = () => {
   return (
-    <>
-      <nav className="relative container px-4 mx-auto mt-6 mb-6 md:px-0">
+    <section className="bg-Green-900">
+      <nav className="relative container px-4 py-3 mx-auto md:px-0">
         <div className="flex items-center justify-between">
-          <div className="pt-2">
+          <div className="">
             <Link to="/">
-              <span className="text-2xl text-underline-none text-bold">Pocket Money</span>
+              <span className="text-2xl text-underline-none text-bold">
+                <img src={logo} alt="Logo" />
+              </span>
             </Link>
           </div>
 
           <div className="space-x-6 text-right md:flex">
-            <Link to="/add-job" className="bg-gray-600 text-white text-underline-none p-2 block rounded hover:bg-gray-800 md:px-4 py-2 inline-block">
+            <Link to="/add-job" className="bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
               Post A Task
             </Link>
           </div>
         </div>
       </nav>
-      <hr className="mb-4" />
-    </>
+    </section>
   )
 }
 
