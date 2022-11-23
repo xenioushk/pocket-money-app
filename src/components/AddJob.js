@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import FormHeading from "./form/FormHeading"
 import axios from "axios"
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"
 import FormLabel from "./form/FormLabel"
 import { useForm } from "react-hook-form"
 
@@ -60,7 +60,7 @@ const AddJob = () => {
       if (resp.data.status === 1) {
         setstatusMessage(resp.data.msg)
         setformOverLay(0)
-        setsubmitBtn(0)
+        // setsubmitBtn(0)
         reset(defaultValues)
         setTimeout(() => {
           setStatus(0)
@@ -71,13 +71,13 @@ const AddJob = () => {
       // Handle Error Here
       setstatusMessage("Unable to create job post.")
       setformOverLay(0)
-      setsubmitBtn(0)
+      // setsubmitBtn(0)
       console.error(err)
     }
   }
   const onSubmit = (data) => {
     // console.log(data)
-    setsubmitBtn(1)
+    // setsubmitBtn(1)
     sendPostRequest(data)
   }
   const warningText = "text-red-500"
@@ -86,12 +86,12 @@ const AddJob = () => {
   const [status, setStatus] = useState(0)
   const [statusMessage, setstatusMessage] = useState("")
   const [formOverLay, setformOverLay] = useState(0)
-  const [submitBtn, setsubmitBtn] = useState(0)
-  //Recaptcha 
-  const [captchaVerified, setCaptchaVerified] = useState(false)
+  // const [submitBtn, setsubmitBtn] = useState(0)
+  //Recaptcha
+  const [captchaVerified, setCaptchaVerified] = useState(0)
   const sitekey = process.env.REACT_APP_SEC_SITE_KEY
   function recaptchaOnChange(value) {
-    setCaptchaVerified(true)
+    setCaptchaVerified(1)
   }
   //
   return (
@@ -201,10 +201,7 @@ const AddJob = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-center sm:px-6">
-                <ReCAPTCHA 
-                  sitekey={sitekey}
-                  onChange={recaptchaOnChange}
-                />
+                  <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
 
                   <button disabled={!captchaVerified} type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-3">
                     Submit and Create Job Post
