@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import JobItem from "./JobItem"
+import JobItem from "../jobs/JobItem"
 import axios from "axios"
 
 const SingleJob = () => {

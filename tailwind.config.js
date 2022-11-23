@@ -15,6 +15,12 @@ module.exports = {
           500: "#12cdd4",
           900: "#259fa8",
         },
+        Gray: {
+          100: "#f1f1f1",
+          300: "#f0f0f0",
+          500: "#e6e6e6",
+          900: "#c4c4c4",
+        },
         brightRed: "hsl(12, 88%, 59%)",
         brightRedLight: "hsl(12, 88%, 69%)",
         brightRedSupLight: "hsl(12, 88%, 95%)",

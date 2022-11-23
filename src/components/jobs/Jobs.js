@@ -15,7 +15,7 @@ const Jobs = () => {
 
     const fetchData = () => {
       axios
-        .get(`/wp-json/pmapi/v1/jobs?limit=3&&page=${page}`)
+        .get(`/wp-json/pmapi/v1/jobs?limit=4&&page=${page}`)
         .then((res) => {
           setMaxPages(res.data.max_pages)
           setIsLoaded(true)
@@ -50,7 +50,7 @@ const Jobs = () => {
     <>
       {isLoaded ? (
         <div className="container px-4 mx-auto items-center md:px-0">
-          <div className="grid grid-cols-1 gap-y-4">
+          <div className="grid grid-cols-2 gap-4">
             {jobs.map((job, index) => (
               <JobItem key={index} job={job} single={false} />
             ))}
@@ -58,7 +58,7 @@ const Jobs = () => {
 
           {loadMoreBtn ? (
             <div className="grid grid-cols-1 gap-y-4">
-              <button className="bg-gray-600 text-white text-underline-none px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 w-1/4 mx-auto" onClick={onClick}>
+              <button className="bg-gray-600 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 w-1/4 mx-auto" onClick={onClick}>
                 Load More
               </button>
             </div>
