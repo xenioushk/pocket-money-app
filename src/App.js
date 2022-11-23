@@ -1,14 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-// import logo from "./logo.svg"
-// import Jobs from "./components/Jobs"
-import Header from "./components/Header"
-import Footer from "./components/Footer"
-import Home from "./components/Home"
-import AboutUs from "./components/AboutUs"
-import AddJob from "./components/AddJob"
-import SearchBox from "./components/SearchBox"
-import Terms from "./components/Terms"
-import SingleJob from "./components/SingleJob"
+import Header from "./components/shared/Header"
+import Footer from "./components/shared/Footer"
+import Home from "./components/pages/Home"
+import AboutUs from "./components/pages/AboutUs"
+import AddJob from "./components/form/AddJob"
+import SearchBox from "./components/search/SearchBox"
+import Terms from "./components/pages/Terms"
+import SingleJob from "./components/pages/SingleJob"
 
 function App() {
   return (

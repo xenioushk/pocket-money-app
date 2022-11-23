@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import FormHeading from "./form/FormHeading"
+import FormHeading from "./FormHeading"
 import axios from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
-import FormLabel from "./form/FormLabel"
+import FormLabel from "./FormLabel"
 import { useForm } from "react-hook-form"
 
 const AddJob = () => {
