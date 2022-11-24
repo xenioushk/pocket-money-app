@@ -60,8 +60,8 @@ const SearchBox = () => {
   }
 
   return (
-    <>
-      <form className="flex items-center w-2/3 mx-auto mt-8 mb-8" onSubmit={onSubmit}>
+    <div className="container px-4 mx-auto items-center mt-4 md:px-0">
+      <form className="flex items-center mx-auto mt-8 mb-8 md:w-2/3" onSubmit={onSubmit}>
         <label htmlFor="jobSearch" className="sr-only">
           Search
         </label>
@@ -99,7 +99,7 @@ const SearchBox = () => {
           </div>
         </div>
       </form>
-    </>
+    </div>
   )
 }
 

@@ -51,7 +51,7 @@ const Jobs = () => {
     <div className="container px-4 mx-auto items-center md:px-0">
       {isLoaded ? (
         <>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {jobs.map((job, index) => (
               <JobItem key={index} job={job} single={false} />
             ))}
@@ -59,7 +59,7 @@ const Jobs = () => {
 
           {loadMoreBtn ? (
             <div className="grid grid-cols-1 gap-y-4">
-              <button className="bg-gray-600 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 w-1/4 mx-auto" onClick={onClick}>
+              <button className="bg-gray-600 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 mx-auto w-1/2 md:w-1/4" onClick={onClick}>
                 Load More
               </button>
             </div>
