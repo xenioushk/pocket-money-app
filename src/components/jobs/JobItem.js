@@ -83,9 +83,6 @@ const JobItem = (props) => {
               <p className="mb-6">
                 <strong>Location:</strong> {props.job.city}
               </p>
-              <p className="mb-6">
-                <strong>Address:</strong> {props.job.address}
-              </p>
             </>
           ) : (
             <></>
