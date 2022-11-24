@@ -1,9 +1,12 @@
 import React, { useState } from "react"
-import FormHeading from "./FormHeading"
+// import FormHeading from "./FormHeading"
 import axios from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
 import FormLabel from "./FormLabel"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
+// import DatePicker from "react-datepicker"
+// import "react-datepicker/dist/react-datepicker.css";
 
 const AddJob = () => {
   const defaultValues = {
@@ -19,6 +22,8 @@ const AddJob = () => {
     taskDetails: "",
     taskDuration: "",
     taskPrice: "",
+    taskDay: "",
+    agree: [],
   }
 
   const {
@@ -53,6 +58,7 @@ const AddJob = () => {
         taskDetails: data.taskDetails,
         taskDuration: data.taskDuration,
         taskPrice: data.taskPrice,
+        taskDay: data.taskDay,
       }
 
       const resp = await axios.post("/wp-json/pmapi/v1/create", newJob)
@@ -63,6 +69,7 @@ const AddJob = () => {
         // setsubmitBtn(0)
         reset(defaultValues)
         setTimeout(() => {
+          setCaptchaVerified(0)
           setStatus(0)
         }, 3000)
       }
@@ -76,7 +83,7 @@ const AddJob = () => {
     }
   }
   const onSubmit = (data) => {
-    // console.log(data)
+    console.log(data)
     // setsubmitBtn(1)
     sendPostRequest(data)
   }
@@ -108,59 +115,23 @@ const AddJob = () => {
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className={`bg-white px-4 py-5 sm:p-6 ${formOverLay === 1 ? "form-overlay" : ""}`}>
                   <div className="grid grid-cols-10 gap-6">
-                    <FormHeading title="Contact Details of Taks Poster" />
-                    {/* First Name */}
-                    <div className="col-span-5">
-                      <FormLabel id="firstName" title="First Name" />
-                      <input type="text" name="firstName" id="firstName" {...register("firstName", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.firstName && <span className={warningText}>First Name is required</span>}{" "}
-                    </div>
-                    {/* Last Name */}
-                    <div className="col-span-5">
-                      <FormLabel id="lastName" title="Last Name" required={false} />
-                      <input type="text" name="lastName" id="lastName" {...register("lastName")} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                    </div>
-                    {/* Email */}
-                    <div className="col-span-5">
-                      <FormLabel id="email" title="Email" />
-                      <input type="text" name="email" id="email" {...register("email", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.email && <span className={warningText}>Email is required</span>}
-                    </div>
-                    {/* Contact */}
-                    <div className="col-span-5">
-                      <FormLabel id="contact" title="Contact" />
-                      <input type="text" name="contact" id="contact" {...register("contact", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.contact && <span className={warningText}>Contact is required</span>}
-                    </div>
-                    {/* Street Address */}
+                    {/* Title of the Task */}
                     <div className="col-span-10">
-                      <FormLabel id="address" title="Address" />
-                      <textarea name="address" id="address" {...register("address", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
-                      {errors.address && <span className={warningText}>Address is required</span>}
-                    </div>
-                    {/* City */}
-                    <div className="col-span-5">
-                      <FormLabel id="city" title="City" />
-                      <select name="city" id="city" className="w-full mt-1 p-2 rounded" {...register("city", { required: true })}>
-                        <option value="">Select</option>
-                        <option value="Helsinki">Helsinki</option>
-                        <option value="Tampere">Tampere</option>
-                      </select>
-                      {errors.city && <span className={warningText}>City is required</span>}
-                    </div>
-                    {/* ZIP */}
-                    <div className="col-span-5">
-                      <FormLabel id="zipCode" title="Zip / Postal code" />
-                      <input type="text" name="zipCode" id="zipCode" {...register("zipCode", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.zipCode && <span className={warningText}>Zip number is required</span>}
+                      <FormLabel id="taskTitle" title="Title" />
+                      <input type="text" name="taskTitle" id="taskTitle" {...register("taskTitle", { required: true, minLength: 3, maxLength: 100 })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskTitle && <span className={warningText}>Task title is required (Max length is 100 characters).</span>}
                     </div>
 
-                    <FormHeading title="Description of Task" />
-
+                    {/* Details of the Task */}
+                    <div className="col-span-10">
+                      <FormLabel id="taskDetails" title=" Details" />
+                      <textarea name="taskDetails" id="taskDetails" {...register("taskDetails", { required: true, minLength: 3, maxLength: 1200 })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
+                      {errors.taskDetails && <span className={warningText}>Task details is required (Max length is 1200 characters).</span>}
+                    </div>
                     {/* Title of the Task */}
                     <div className="col-span-10">
                       <FormLabel id="taskCategory" title="Task Category" />
-                      <select name="taskCategory" id="taskCategory" className="w-full mt-1 p-2 rounded" {...register("taskCategory", { required: true })}>
+                      <select name="taskCategory" id="taskCategory" className="bg-white border-2 border-gray-500 w-full mt-1 p-2 rounded" {...register("taskCategory", { required: true })}>
                         <option value="">Select</option>
                         <option value="3">Care Giving</option>
                         <option value="7">Cleaning</option>
@@ -171,40 +142,82 @@ const AddJob = () => {
                       {errors.taskCategory && <span className={warningText}>Task Category is required</span>}
                     </div>
 
-                    {/* Title of the Task */}
-                    <div className="col-span-10">
-                      <FormLabel id="taskTitle" title="Title of the task" />
-                      <input type="text" name="taskTitle" id="taskTitle" {...register("taskTitle", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskTitle && <span className={warningText}>Task title is required</span>}
-                    </div>
-
-                    {/* Details of the Task */}
-                    <div className="col-span-10">
-                      <FormLabel id="taskDetails" title=" Details of the task" />
-                      <textarea name="taskDetails" id="taskDetails" {...register("taskDetails", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
-                      {errors.taskDetails && <span className={warningText}>Details of the task is required</span>}
+                    {/* Duration of the Task */}
+                    <div className="col-span-5">
+                      <FormLabel id="taskDay" title="Day" />
+                      <input type="text" placeholder="01.01.2022" name="taskDay" id="taskDay" {...register("taskDay", { required: true, pattern: /^\d{2}\.\d{2}\.\d{4}$/ })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskDay && <span className={warningText}>Day is required. (Format: 22.11.2022)</span>}
                     </div>
 
                     {/* Duration of the Task */}
-                    <div className="col-span-10">
-                      <FormLabel id="taskPrice" title="Task price" />
-                      <input type="text" name="taskPrice" id="taskPrice" {...register("taskPrice", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskPrice && <span className={warningText}>The task price is required</span>}
+                    <div className="col-span-5">
+                      <FormLabel id="taskPrice" title="Price" />
+                      <input type="text" placeholder="In Euros" name="taskPrice" id="taskPrice" {...register("taskPrice", { required: true, pattern: /^[0-9.]+$/i })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskPrice && <span className={warningText}>Price is required (Only numbers allowed).</span>}
                     </div>
 
-                    {/* Duration of the Task */}
+                    {/* Duration*/}
+                    <div className="col-span-5">
+                      <FormLabel id="taskDuration" title="Duration" />
+                      <input type="text" placeholder="In Hours" name="taskDuration" id="taskDuration" {...register("taskDuration", { required: true, pattern: /^[0-9]+$/i })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.taskDuration && <span className={warningText}>Duration is required (Only numbers allowed).</span>}
+                    </div>
+
+                    {/* Location */}
+                    <div className="col-span-5">
+                      <FormLabel id="city" title="Location" />
+                      <select name="city" id="city" className="bg-white border-2 border-gray-500 w-full mt-1 p-2 rounded" {...register("city", { required: true })}>
+                        <option value="">Select</option>
+                        <option value="Helsinki">Helsinki</option>
+                        <option value="Tampere">Tampere</option>
+                      </select>
+                      {errors.city && <span className={warningText}>Location is required.</span>}
+                    </div>
+
+                    {/* <div className="col-span-10 justify-items-right">
+                      <button type="submit" className="rounded-md bg-Green-500 py-2 px-4">
+                        Next
+                      </button>
+                    </div> */}
+
+                    {/* <FormHeading title="Contact Details of Taks Poster" /> */}
+                    {/* First Name */}
+                    <div className="col-span-5">
+                      <FormLabel id="firstName" title="First Name" />
+                      <input type="text" placeholder="John" name="firstName" id="firstName" {...register("firstName", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.firstName && <span className={warningText}>First Name is required</span>}{" "}
+                    </div>
+                    {/* Last Name */}
+                    <div className="col-span-5">
+                      <FormLabel id="lastName" title="Last Name" required={false} />
+                      <input type="text" placeholder="Doe" name="lastName" id="lastName" {...register("lastName")} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                    </div>
+                    {/* Email */}
+                    <div className="col-span-5">
+                      <FormLabel id="email" title="Email" />
+                      <input type="text" placeholder="john.doe@example.com" name="email" id="email" {...register("email", { required: true, pattern: /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,4})+$/i })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.email && <span className={warningText}>Email is required</span>}
+                    </div>
+                    {/* Contact */}
+                    <div className="col-span-5">
+                      <FormLabel id="contact" title="Phone" />
+                      <input type="text" placeholder="+3484412132" name="contact" id="contact" {...register("contact", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.contact && <span className={warningText}>Phone is required</span>}
+                    </div>
+                    {/* Terms */}
                     <div className="col-span-10">
-                      <FormLabel id="taskDuration" title="Duration of the task" />
-                      <input type="text" name="taskDuration" id="taskDuration" {...register("taskDuration", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskDuration && <span className={warningText}>Duration of the task is required</span>}
+                      <p>
+                        <input name="agree" id="agree" type="checkbox" className="inline" {...register("agree", { required: true })} value="" /> I agree to <Link to="#">terms</Link> and conditions.
+                      </p>
+                      {errors.agree && <span className={warningText}>Please agree terms and conditions.</span>}
                     </div>
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-center sm:px-6">
                   <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
 
-                  <button disabled={!captchaVerified} type="submit" className="inline-flex justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-3">
-                    Submit and Create Job Post
+                  <button disabled={!captchaVerified} type="submit" className="mt-3 bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
+                    Post
                   </button>
                 </div>
               </div>

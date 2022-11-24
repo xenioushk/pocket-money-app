@@ -7,6 +7,7 @@ import AddJob from "./components/form/AddJob"
 import SearchBox from "./components/search/SearchBox"
 import Terms from "./components/pages/Terms"
 import SingleJob from "./components/pages/SingleJob"
+import EditJob from "./components/pages/EditJob"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search-job" element={<SearchBox />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/job/edit/:id" element={<EditJob />} />
       </Routes>
       <Footer />
     </BrowserRouter>
