@@ -27,7 +27,7 @@ const JobItem = (props) => {
         <>
           <div className="grid grid-cols-4 gap-4">
             <div className="col-span-3">
-              <div className="grid grid-cols-2 gap-y-2 gap-x-1">
+              <div className="grid grid-cols-1 gap-y-2 gap-x-1 md:grid-cols-2 ">
                 <p>Day: {props.job.date}</p>
                 <p>Location: {props.job.city}</p>
                 <p>
@@ -36,7 +36,7 @@ const JobItem = (props) => {
               </div>
             </div>
             <div className="text-center">
-              <span className="px-3 py-3 place-self-center font-bold rounded bg-Gray-500 text-2xl">{props.job.price ? props.job.price : 0} &euro;</span>
+              <span className="px-3 py-3 font-normal place-self-center rounded bg-Gray-500 md:text-2xl font-bold ">{props.job.price ? props.job.price : 0} &euro;</span>
             </div>
           </div>
         </>
