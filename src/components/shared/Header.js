@@ -1,6 +1,10 @@
 import React from "react"
 import { Link } from "react-router-dom"
+<<<<<<< HEAD:src/components/Header.js
 import logo from "../logo.png" // Tell webpack this JS file uses this image
+=======
+import logo from "../../logo.png" // Tell webpack this JS file uses this image
+>>>>>>> main:src/components/shared/Header.js
 
 const Header = () => {
   return (

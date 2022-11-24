@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import JobItem from "./JobItem"
+import JobItem from "../jobs/JobItem"
 import axios from "axios"
 
 const SingleJob = () => {
@@ -33,7 +33,7 @@ const SingleJob = () => {
     <>
       {isLoaded ? (
         <div className="container mx-auto items-center">
-          <div className="grid grid-cols-1 gap-y-4">
+          <div className="grid grid-cols-1 gap-y-4 mt-4">
             {singleJob.map((job, index) => (
               <JobItem key={index} job={job} single={true} />
             ))}
