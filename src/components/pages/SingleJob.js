@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import JobItem from "../jobs/JobItem"
 import axios from "axios"
+import loader from "../../loader.gif"
 
 const SingleJob = () => {
   // get ID from url
@@ -30,19 +31,21 @@ const SingleJob = () => {
   }, [postId])
 
   return (
-    <>
+    <div className="container px-4 mx-auto items-center mt-4 md:px-0">
       {isLoaded ? (
-        <div className="container mx-auto items-center">
+        <>
           <div className="grid grid-cols-1 gap-y-4 mt-4">
             {singleJob.map((job, index) => (
               <JobItem key={index} job={job} single={true} />
             ))}
           </div>
-        </div>
+        </>
       ) : (
-        <div className="text-center">Loading...</div>
+        <div className="grid justify-items-center">
+          <img src={loader} alt="Logo" />
+        </div>
       )}
-    </>
+    </div>
   )
 }
 

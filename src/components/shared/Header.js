@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import logo from "../../logo.png" // Tell webpack this JS file uses this image
+import logo from "../../logo.png"
 
 const Header = () => {
   return (

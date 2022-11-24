@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import JobItem from "./JobItem"
 import axios from "axios"
+import loader from "../../loader.gif"
 
 const Jobs = () => {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -47,9 +48,9 @@ const Jobs = () => {
   }
 
   return (
-    <>
+    <div className="container px-4 mx-auto items-center md:px-0">
       {isLoaded ? (
-        <div className="container px-4 mx-auto items-center md:px-0">
+        <>
           <div className="grid grid-cols-2 gap-4">
             {jobs.map((job, index) => (
               <JobItem key={index} job={job} single={false} />
@@ -65,11 +66,13 @@ const Jobs = () => {
           ) : (
             ""
           )}
-        </div>
+        </>
       ) : (
-        <div className="text-center">Loading...</div>
+        <div className="grid justify-items-center">
+          <img src={loader} alt="Logo" />
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
