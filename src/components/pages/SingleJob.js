@@ -33,7 +33,7 @@ const SingleJob = () => {
     <>
       {isLoaded ? (
         <div className="container mx-auto items-center">
-          <div className="grid grid-cols-1 gap-y-4">
+          <div className="grid grid-cols-1 gap-y-4 mt-4">
             {singleJob.map((job, index) => (
               <JobItem key={index} job={job} single={true} />
             ))}
