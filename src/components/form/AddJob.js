@@ -195,7 +195,7 @@ const AddJob = () => {
                     {/* Email */}
                     <div className="col-span-5">
                       <FormLabel id="email" title="Email" />
-                      <input type="text" placeholder="john.doe@example.com" name="email" id="email" {...register("email", { required: true, pattern: /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/i })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input type="text" placeholder="john.doe@example.com" name="email" id="email" {...register("email", { required: true })} className="p-1 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
 
                       {errors.email && <span className={warningText}>Email is required</span>}
                     </div>
