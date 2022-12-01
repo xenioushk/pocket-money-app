@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react"
 import JobItem from "./JobItem"
 import axios from "axios"
 import loader from "../../loader.gif"
+import Breadcrumb from "../base/Breadcrumb"
 
-const Jobs = () => {
+const Jobs = (props) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [jobs, setJobs] = useState([])
   const [maxPages, setMaxPages] = useState(1)
@@ -11,18 +12,27 @@ const Jobs = () => {
   const [page, setPage] = useState(1)
   const [loadMoreBtn, setLoadMoreBtn] = useState(0)
   const [status, setStatus] = useState(false)
+  const [catName, setCateName] = useState("")
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
 
+    const catFilter = typeof props.catSlug !== "undefined" ? `&catslug=${props.catSlug}` : ""
+
+    const apiLink = `/wp-json/pmapi/v1/jobs?limit=4&&page=${page}${catFilter}`
+
     const fetchData = () => {
       axios
-        .get(`/wp-json/pmapi/v1/jobs?limit=4&&page=${page}`)
+        .get(apiLink)
         .then((res) => {
           setMaxPages(res.data.max_pages)
           setIsLoaded(true)
           setStatus(res.data.status)
 
+          if (typeof props.catSlug !== "undefined") {
+            // console.log(props.catSlug)
+            setCateName(res.data.cat_name)
+          }
           // maximum number of page value is greater than 1 then we are going to show the button.
 
           res.data.max_pages > 1 ? setLoadMoreBtn(1) : setLoadMoreBtn(0)
@@ -34,7 +44,7 @@ const Jobs = () => {
     }
 
     fetchData()
-  }, [page])
+  }, [page, props.catSlug])
 
   const onClick = (e) => {
     //Remove it later.
@@ -55,6 +65,14 @@ const Jobs = () => {
         <>
           {status === true ? (
             <>
+              {typeof props.catSlug !== "undefined" ? (
+                <>
+                  <Breadcrumb category={catName} catSlug={props.catSlug} />
+                </>
+              ) : (
+                ""
+              )}
+
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {jobs.map((job, index) => (
                   <JobItem key={index} job={job} single={false} />
@@ -62,7 +80,7 @@ const Jobs = () => {
               </div>
 
               {loadMoreBtn ? (
-                <div className="grid grid-cols-1 gap-y-4">
+                <div className="grid grid-cols-1 gap-y-4 md:mt-6">
                   <button className="bg-gray-600 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 mx-auto w-1/2 md:w-1/4" onClick={onClick}>
                     Load More
                   </button>
@@ -71,7 +89,6 @@ const Jobs = () => {
                 ""
               )}
             </>
-
           ) : (
             <>
               <p>No Post Found !</p>

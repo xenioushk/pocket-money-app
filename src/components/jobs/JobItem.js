@@ -5,21 +5,15 @@ import PropTypes from "prop-types"
 const JobItem = (props) => {
   const [showContact, setshowContact] = useState(false)
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setshowContact(true)
-  //   }, 5000)
-  // }, [showContact])
-
   const showContactDetails = (e) => {
     setshowContact(!showContact)
   }
 
   return (
-    <div className="bg-Gray-300 space-y-2 bg-white border-2 border-bg-Gray-300 mb-4 p-2 md:px-4 py-4" key={props.job.id}>
+    <div className="bg-Gray-300 space-y-2 bg-white border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0" key={props.job.id}>
       <h2 className="text-2xl font-bold mb-3">
         {!props.single ? (
-          <Link to={`/job/${props.job.uuid}`} className="">
+          <Link to={`/job/${props.job.uuid}`} className="transition text-Green-900 hover:text-black">
             {props.job.title}
           </Link>
         ) : (
@@ -28,22 +22,20 @@ const JobItem = (props) => {
       </h2>
 
       {!props.single ? (
-        <>
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-3">
-              <div className="grid grid-cols-1 gap-y-2 gap-x-1 md:grid-cols-2 ">
-                <p>Day: {props.job.date}</p>
-                <p>Location: {props.job.city}</p>
-                <p>
-                  Duration: {props.job.duration} hour{props.job.duration > 1 ? "s" : ""}
-                </p>
-              </div>
-            </div>
-            <div className="text-center">
-              <span className="px-3 py-3 font-normal place-self-center rounded bg-Gray-500 md:text-2xl font-bold ">{props.job.price ? props.job.price : 0} &euro;</span>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-3">
+            <div className="grid grid-cols-1 gap-y-2 gap-x-1 md:grid-cols-2 ">
+              <p>Day: {props.job.date}</p>
+              <p>Location: {props.job.city}</p>
+              <p>
+                Duration: {props.job.duration} hour{props.job.duration > 1 ? "s" : ""}
+              </p>
             </div>
           </div>
-        </>
+          <div className="text-right">
+            <span className="px-3 py-3 font-normal place-self-center rounded bg-Gray-500 md: text-2xl font-bold ">{props.job.price ? props.job.price : 0} &euro;</span>
+          </div>
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-4 gap-4">
@@ -66,7 +58,7 @@ const JobItem = (props) => {
           </div>
 
           <div className="flex justify-end">
-            <button className="inline-block px-4 py-2 bg-Green-500 hover:bg-Green-900 mt-6" onClick={showContactDetails}>
+            <button className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" onClick={showContactDetails}>
               Contact Details
             </button>
           </div>
@@ -89,7 +81,7 @@ const JobItem = (props) => {
               </p>
             </>
           ) : (
-            <></>
+            ""
           )}
         </>
       )}
