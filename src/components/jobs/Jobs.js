@@ -71,6 +71,7 @@ const Jobs = () => {
                 ""
               )}
             </>
+
           ) : (
             <>
               <p>No Post Found !</p>
