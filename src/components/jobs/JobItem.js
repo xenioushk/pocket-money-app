@@ -18,9 +18,13 @@ const JobItem = (props) => {
   return (
     <div className="bg-Gray-300 space-y-2 bg-white border-2 border-bg-Gray-300 mb-4 p-2 md:px-4 py-4" key={props.job.id}>
       <h2 className="text-2xl font-bold mb-3">
-        <Link to={`/job/${props.job.id}`} className="">
-          {props.job.title}
-        </Link>
+        {!props.single ? (
+          <Link to={`/job/${props.job.uuid}`} className="">
+            {props.job.title}
+          </Link>
+        ) : (
+          <>{props.job.title}</>
+        )}
       </h2>
 
       {!props.single ? (
@@ -61,7 +65,7 @@ const JobItem = (props) => {
             </div>
           </div>
 
-          <div class="flex justify-end">
+          <div className="flex justify-end">
             <button className="inline-block px-4 py-2 bg-Green-500 hover:bg-Green-900 mt-6" onClick={showContactDetails}>
               Contact Details
             </button>
