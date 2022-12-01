@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import JobItem from "../jobs/JobItem"
+import AlertMessage from "../base/AlertMessage"
 import axios from "axios"
 import loader from "../../loader.gif"
 
@@ -13,6 +14,7 @@ const SingleJob = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [singleJob, setSingleJob] = useState([])
   const [postId] = useState(params.id)
+  const [status, setStatus] = useState(false)
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
@@ -22,6 +24,7 @@ const SingleJob = () => {
         .get(`/wp-json/pmapi/v1/jobs?p_id=${postId}`)
         .then((res) => {
           setIsLoaded(true)
+          setStatus(res.data.status)
           setSingleJob((prev) => prev.concat(res.data.job_data))
         })
         .catch((err) => console.log(err))
@@ -33,13 +36,7 @@ const SingleJob = () => {
   return (
     <div className="container px-4 mx-auto items-center mt-4 md:px-0">
       {isLoaded ? (
-        <>
-          <div className="grid grid-cols-1 gap-y-4 mt-4">
-            {singleJob.map((job, index) => (
-              <JobItem key={index} job={job} single={true} />
-            ))}
-          </div>
-        </>
+        <div className="grid grid-cols-1 gap-y-4 mt-4">{status === true ? singleJob.map((job, index) => <JobItem key={index} job={job} single={true} />) : <AlertMessage type="warning" title="No Job Post Found!" />}</div>
       ) : (
         <div className="grid justify-items-center">
           <img src={loader} alt="Logo" />
