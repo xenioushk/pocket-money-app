@@ -1,14 +1,16 @@
 import React, { useState } from "react"
-// import FormHeading from "./FormHeading"
+import { useParams } from "react-router-dom"
 import axios from "axios"
-import ReCAPTCHA from "react-google-recaptcha"
 import FormLabel from "./FormLabel"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
-// import DatePicker from "react-datepicker"
-// import "react-datepicker/dist/react-datepicker.css";
 
 const EditJob = () => {
+  const params = useParams()
+
+  console.log(params.jobId)
+  console.log(params.jobHash)
+
   const defaultValues = {
     firstName: "",
     lastName: "",
@@ -23,7 +25,6 @@ const EditJob = () => {
     taskDuration: "",
     taskPrice: "",
     taskDay: "",
-    agree: [],
   }
 
   const {
@@ -68,10 +69,6 @@ const EditJob = () => {
         setformOverLay(0)
         // setsubmitBtn(0)
         reset(defaultValues)
-        setTimeout(() => {
-          setCaptchaVerified(0)
-          setStatus(0)
-        }, 3000)
       }
       // resetFields()
     } catch (err) {
@@ -83,7 +80,7 @@ const EditJob = () => {
     }
   }
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     // setsubmitBtn(1)
     sendPostRequest(data)
   }
@@ -94,12 +91,7 @@ const EditJob = () => {
   const [statusMessage, setstatusMessage] = useState("")
   const [formOverLay, setformOverLay] = useState(0)
   // const [submitBtn, setsubmitBtn] = useState(0)
-  //Recaptcha
-  const [captchaVerified, setCaptchaVerified] = useState(0)
-  const sitekey = process.env.REACT_APP_SEC_SITE_KEY
-  function recaptchaOnChange(value) {
-    setCaptchaVerified(1)
-  }
+
   //
   return (
     <>
@@ -214,11 +206,13 @@ const EditJob = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 text-center sm:px-6">
-                  <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
+                <div className="grid grid-cols-2 bg-gray-50 px-4 py-3 gap-6 md:px-6 ">
+                  <button type="submit" className="mt-3 bg-brightRed text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
+                    Delete Post
+                  </button>
 
-                  <button disabled={!captchaVerified} type="submit" className="mt-3 bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
-                    Post
+                  <button type="submit" className="mt-3 bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
+                    Update Post
                   </button>
                 </div>
               </div>

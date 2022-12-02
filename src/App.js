@@ -21,7 +21,7 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search-job" element={<SearchBox />} />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/job/edit/:id" element={<EditJob />} />
+        <Route path="/job/edit/:jobHash/:jobId" element={<EditJob />} />
         <Route path="/category/:catSlug" element={<Category />} />
       </Routes>
       <Footer />
