@@ -10,7 +10,7 @@ const JobItem = (props) => {
   }
 
   return (
-    <div className="bg-Gray-300 space-y-2 bg-white border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0" key={props.job.id}>
+    <div className="bg-Gray-300 space-y-2 border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0" key={props.job.id}>
       <h2 className="text-2xl font-bold mb-3">
         {!props.single ? (
           <Link to={`/job/${props.job.uuid}`} className="transition text-Green-900 hover:text-black">

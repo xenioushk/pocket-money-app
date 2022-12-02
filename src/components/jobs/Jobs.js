@@ -13,6 +13,8 @@ const Jobs = (props) => {
   const [loadMoreBtn, setLoadMoreBtn] = useState(0)
   const [status, setStatus] = useState(false)
   const [catName, setCateName] = useState("")
+  const [loadMoreBtnText, setLoadMoreBtnText] = useState("Load More")
+  const [loadMoreBtnDisabled, setLoadMoreBtnDisabled] = useState(false)
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
@@ -25,6 +27,8 @@ const Jobs = (props) => {
       axios
         .get(apiLink)
         .then((res) => {
+          setLoadMoreBtnText("Load More")
+          setLoadMoreBtnDisabled(false)
           setMaxPages(res.data.max_pages)
           setIsLoaded(true)
           setStatus(res.data.status)
@@ -53,6 +57,8 @@ const Jobs = (props) => {
 
     let currentPage
     setPage((currentPage = parseInt(page) + 1))
+    setLoadMoreBtnText("Loading....")
+    setLoadMoreBtnDisabled(true)
 
     if (currentPage === maxPages) {
       e.target.remove()
@@ -81,8 +87,8 @@ const Jobs = (props) => {
 
               {loadMoreBtn ? (
                 <div className="grid grid-cols-1 gap-y-4 md:mt-6">
-                  <button className="bg-gray-600 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 mx-auto w-1/2 md:w-1/4" onClick={onClick}>
-                    Load More
+                  <button disabled={loadMoreBtnDisabled === true ? "disabled" : ""} className="transition bg-Green-900 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 mx-auto w-1/2 md:w-1/4" onClick={onClick}>
+                    {loadMoreBtnText}
                   </button>
                 </div>
               ) : (
