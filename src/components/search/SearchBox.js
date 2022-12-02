@@ -40,17 +40,15 @@ const SearchBox = () => {
       .get(`/wp-json/pmapi/v1/search?s=${s}`)
       .then((res) => {
         // setSearchResultStatus(1)
-
-        if (res.data.length < 1) {
-          setSpinnerStatus(1)
+        setSpinnerStatus(0)
+        if (res.data.count === 0) {
           setSpinnerText("No results found")
           return 1
           // setSearchingTextStatus(0)
+        } else {
+          setSearchStatus(1)
+          setSearchData(res.data.data)
         }
-
-        setSpinnerStatus(0)
-        setSearchStatus(1)
-        setSearchData(res.data)
       })
       .catch((err) => console.log(err))
   }
@@ -71,6 +69,7 @@ const SearchBox = () => {
               <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
             </svg>
           </div>
+
           <div className={`flex absolute inset-y-0 right-2 items-center pl-3 pointer-events-none  ${spinnerStatus ? "" : "hidden"}`}>
             <svg role="status" className="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -80,7 +79,7 @@ const SearchBox = () => {
           <input value={searchText} onChange={(e) => setSearchText(e.target.value)} type="text" id="jobSearch" className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded focus:border-gray-500 focus:border-gray-500 block w-full pl-10 p-2.5" placeholder="Search Job" required="" />
 
           <div className="absolute w-full mt-12">
-            {spinnerStatus === 1 ? <div className="justify-center text-center w-full">{spinnerText}</div> : ""}
+            {spinnerText !== "" ? <div className="justify-center text-center w-full">{spinnerText}</div> : ""}
             <div className=" block">
               {searchStatus && searchData.length > 0 ? (
                 <div className="justify-center w-full">
