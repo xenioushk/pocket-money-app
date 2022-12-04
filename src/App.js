@@ -13,7 +13,6 @@ import EditJob from "./components/pages/EditJob";
 function App() {
   return (
     <BrowserRouter>
-      ``
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
