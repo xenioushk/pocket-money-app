@@ -86,7 +86,7 @@ const Jobs = (props) => {
               </div>
 
               {loadMoreBtn ? (
-                <div className="grid grid-cols-1 gap-y-4 md:mt-6">
+                <div className="grid grid-cols-1 gap-y-4 mt-4 md:mt-6">
                   <button disabled={loadMoreBtnDisabled === true ? "disabled" : ""} className="transition bg-Green-900 text-white text-underline-none font-bold px-4 py-4 rounded hover:bg-gray-800 btn-inline p-3 mx-auto w-1/2 md:w-1/4" onClick={onClick}>
                     {loadMoreBtnText}
                   </button>

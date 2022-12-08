@@ -1,25 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
 
 const JobItem = (props) => {
-  const [showContact, setshowContact] = useState(false);
+  const [showContact, setshowContact] = useState(false)
 
   const showContactDetails = (e) => {
-    setshowContact(!showContact);
-  };
+    setshowContact(!showContact)
+  }
 
   return (
-    <div
-      className="bg-Gray-300 space-y-2 border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0"
-      key={props.job.id}
-    >
+    <div className="bg-Gray-300 space-y-2 border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0" key={props.job.id}>
       <h2 className="text-2xl font-bold mb-3">
         {!props.single ? (
-          <Link
-            to={`/job/${props.job.uuid}`}
-            className="transition text-Green-900 hover:text-black"
-          >
+          <Link to={`/job/${props.job.uuid}`} className="transition text-Green-900 hover:text-black">
             {props.job.title}
           </Link>
         ) : (
@@ -40,19 +34,14 @@ const JobItem = (props) => {
             </div>
           </div>
           <div className="text-right">
-            <span className="px-3 py-3 font-normal place-self-center rounded bg-Gray-500 md: text-2xl font-bold ">
-              {props.job.price ? props.job.price : 0} &euro;
-            </span>
+            <span className="shadow-2xl px-2 py-2 font-normal place-self-center rounded bg-Gray-900 text-xl md: text-2xl font-bold p-3">{props.job.price ? props.job.price : 0} &euro;</span>
           </div>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-4">
-              <div
-                className={!props.single ? "hidden md:block" : "block"}
-                dangerouslySetInnerHTML={{ __html: props.job.excerpt }}
-              />
+            <div className="col-span-4 mb-5">
+              <div className={!props.single ? "hidden md:block" : "block"} dangerouslySetInnerHTML={{ __html: props.job.excerpt }} />
             </div>
             <div className="col-span-3">
               <div className="grid grid-cols-2 gap-y-2 gap-x-1">
@@ -66,30 +55,22 @@ const JobItem = (props) => {
               </div>
             </div>
             <div className="text-right">
-              <span className="px-3 py-3 place-self-center font-bold rounded bg-Gray-500 text-2xl">
-                {props.job.price ? props.job.price : 0} &euro;
-              </span>
+              <span className="shadow-2xl px-3 py-3 place-self-center font-bold rounded bg-Gray-900 md: text-2xl font-bold p-3">{props.job.price ? props.job.price : 0} &euro;</span>
             </div>
           </div>
 
           <div className="flex justify-end">
-            <button
-              className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6"
-              onClick={showContactDetails}
-            >
+            <button className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" onClick={showContactDetails}>
               Contact Details
             </button>
           </div>
 
           {showContact ? (
             <>
-              <h3 className="text-3xl border block border-0 border-b-2 pb-2">
-                Contact Details:
-              </h3>
+              <h3 className="text-3xl border block border-0 border-b-2 pb-2">Contact Details:</h3>
 
               <p className="mb-6">
-                <strong>Posted By:</strong> {props.job.first_name}{" "}
-                {props.job.last_name}
+                <strong>Posted By:</strong> {props.job.first_name} {props.job.last_name}
               </p>
               <p className="mb-6">
                 <strong>Email:</strong> {props.job.email}
@@ -107,17 +88,17 @@ const JobItem = (props) => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 // Default Value
 JobItem.defaultProps = {
   single: false,
-};
+}
 
 // Type Casing.
 JobItem.propTypes = {
   single: PropTypes.bool,
-};
+}
 
-export default JobItem;
+export default JobItem
