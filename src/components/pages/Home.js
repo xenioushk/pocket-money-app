@@ -5,7 +5,7 @@ import Page from "../pages/Page"
 
 const Home = () => {
   useEffect(() => {
-    document.title = "Home"
+    document.title = "Home | Pocket Money"
   }, [])
   return (
     <Page title="Home">

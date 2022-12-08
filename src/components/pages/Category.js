@@ -10,7 +10,7 @@ const Category = () => {
   const [catSlug, setcatSlug] = useState(params.catSlug)
   useEffect(() => {
     setcatSlug(params.catSlug)
-    document.title = `All ${params.catSlug.replace("-", " ")} jobs`
+    document.title = `All ${params.catSlug.replace("-", " ")} jobs | Pocket Money`
   }, [params.catSlug])
   return (
     <Page title="Category">

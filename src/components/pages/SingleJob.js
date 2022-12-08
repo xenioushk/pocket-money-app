@@ -33,6 +33,7 @@ const SingleJob = () => {
           setJobCategory(res.data.job_data[0].category)
           setJobCategorySlug(res.data.job_data[0].cat_slug)
           setSingleJob((prev) => prev.concat(res.data.job_data))
+          document.title = `${res.data.job_data[0].title} | Pocket Money`
         })
         .catch((err) => console.log(err))
     }
