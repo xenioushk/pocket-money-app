@@ -91,7 +91,7 @@ const AddJob = () => {
   const [formOverLay, setformOverLay] = useState(0)
   // const [submitBtn, setsubmitBtn] = useState(0)
   //Recaptcha
-  const [captchaVerified, setCaptchaVerified] = useState(0)
+  const [captchaVerified, setCaptchaVerified] = useState(1)
   const sitekey = process.env.REACT_APP_SEC_SITE_KEY
   function recaptchaOnChange(value) {
     setCaptchaVerified(1)
@@ -186,7 +186,17 @@ const AddJob = () => {
                     {/* Email */}
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="email" title="Email" />
-                      <input type="text" placeholder="john.doe@example.com" name="email" id="email" {...register("email", { required: true })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      <input
+                        type="text"
+                        placeholder="john.doe@example.com"
+                        name="email"
+                        id="email"
+                        {...register("email", {
+                          required: true,
+                          pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        })}
+                        className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"
+                      />
 
                       {errors.email && <span className={warningText}>Email is required</span>}
                     </div>
@@ -199,7 +209,7 @@ const AddJob = () => {
                   </div>
                 </div>
                 <div className="col-span-12 bg-gray-50 px-4 py-3 text-center sm:px-6">
-                  <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
+                  {/* <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} /> */}
 
                   <button disabled={!captchaVerified} type="submit" className={`rounded cursor-pointer p-2 mt-3 text-dark font-bold  w-1/2 block ${!captchaVerified ? "bg-gray-200" : "bg-Green-500"} hover:${!captchaVerified ? "bg-brightRed" : "bg-Green-100"} md: px-8 inline-block`}>
                     Post
