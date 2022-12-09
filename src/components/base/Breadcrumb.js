@@ -7,7 +7,7 @@ const Breadcrumb = (props) => {
   return (
     <>
       <nav className="bg-Gray-100 space-y-2 border-1 border-bg-Gray-100 px-5 py-3 w-full mt-2 mb-2">
-        <ol className="list-reset font-bold flex">
+        <ol className="list-reset text-sm font-normal md:font-bold md:font-bold flex">
           <li>
             <Link to={"/"} className="text-Green-900 hover:text-gray-500">
               Home
