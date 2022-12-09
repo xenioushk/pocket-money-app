@@ -1,12 +1,20 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import ReCAPTCHA from "react-google-recaptcha"
 
 const JobItem = (props) => {
-  const [showContact, setshowContact] = useState(false)
+  const [showCaptcha, setShowCaptcha] = useState(false)
 
-  const showContactDetails = (e) => {
-    setshowContact(!showContact)
+  //Recaptcha
+  const [captchaVerified, setCaptchaVerified] = useState(0)
+  const sitekey = process.env.REACT_APP_SEC_SITE_KEY
+  function recaptchaOnChange(value) {
+    setCaptchaVerified(1)
+  }
+
+  const showCaptchaBox = (e) => {
+    setShowCaptcha(!showCaptcha)
   }
 
   return (
@@ -60,12 +68,16 @@ const JobItem = (props) => {
           </div>
 
           <div className="flex justify-end">
-            <button className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" onClick={showContactDetails}>
+            <button className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" onClick={showCaptchaBox}>
               Contact Details
             </button>
           </div>
 
-          {showContact ? (
+          <div className={`flex justify-end ${!showCaptcha ? "hidden" : ""}`}>
+            <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
+          </div>
+
+          {captchaVerified ? (
             <>
               <h3 className="text-3xl border block border-0 border-b-2 pb-2">Contact Details:</h3>
 
