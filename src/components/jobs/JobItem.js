@@ -32,7 +32,7 @@ const JobItem = (props) => {
       {!props.single ? (
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-3">
-            <div className="grid grid-cols-1 gap-y-2 gap-x-1 md:grid-cols-2 ">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-y-2 gap-x-1">
               <p>Day: {props.job.date}</p>
               <p>Location: {props.job.city}</p>
               <p>
@@ -41,8 +41,8 @@ const JobItem = (props) => {
               </p>
             </div>
           </div>
-          <div className="text-right">
-            <span className="shadow-2xl px-2 py-2 font-normal place-self-center rounded bg-Gray-900 text-xl md: text-2xl font-bold p-3">{props.job.price ? props.job.price : 0} &euro;</span>
+          <div className="text-right relative">
+            <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 sm:text-xl xl:font-bold md:p-3">{props.job.price ? props.job.price : 0} &euro;</span>
           </div>
         </div>
       ) : (
@@ -52,7 +52,7 @@ const JobItem = (props) => {
               <div className={!props.single ? "hidden md:block" : "block"} dangerouslySetInnerHTML={{ __html: props.job.excerpt }} />
             </div>
             <div className="col-span-3">
-              <div className="grid grid-cols-2 gap-y-2 gap-x-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-1">
                 <p>Day: {props.job.date}</p>
                 <p>Location: {props.job.city}</p>
                 <p>
@@ -62,8 +62,8 @@ const JobItem = (props) => {
                 <p>Category: {props.job.category}</p>
               </div>
             </div>
-            <div className="text-right">
-              <span className="shadow-2xl px-3 py-3 place-self-center font-bold rounded bg-Gray-900 md: text-2xl font-bold p-3">{props.job.price ? props.job.price : 0} &euro;</span>
+            <div className="text-right relative">
+              <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 sm:text-xl sm:font-bold md:p-3 md:top-1">{props.job.price ? props.job.price : 0} &euro;</span>
             </div>
           </div>
 
