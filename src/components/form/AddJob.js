@@ -91,7 +91,7 @@ const AddJob = () => {
   const [formOverLay, setformOverLay] = useState(0)
   // const [submitBtn, setsubmitBtn] = useState(0)
   //Recaptcha
-  const [captchaVerified, setCaptchaVerified] = useState(1)
+  const [captchaVerified, setCaptchaVerified] = useState(0)
   const sitekey = process.env.REACT_APP_SEC_SITE_KEY
   function recaptchaOnChange(value) {
     setCaptchaVerified(1)
@@ -112,14 +112,14 @@ const AddJob = () => {
                     <div className="col-span-12">
                       <FormLabel id="taskTitle" title="Title" />
                       <input type="text" name="taskTitle" id="taskTitle" {...register("taskTitle", { required: true, minLength: 3, maxLength: 100 })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskTitle && <span className={warningText}>Task title is required (Max length is 100 characters).</span>}
+                      {errors.taskTitle && <span className={warningText}>Add the task title (Maximum 100 characters).</span>}
                     </div>
 
                     {/* Details of the Task */}
                     <div className="col-span-12">
                       <FormLabel id="taskDetails" title=" Details" />
                       <textarea name="taskDetails" id="taskDetails" {...register("taskDetails", { required: true, minLength: 3, maxLength: 1200 })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"></textarea>
-                      {errors.taskDetails && <span className={warningText}>Task details is required (Max length is 1200 characters).</span>}
+                      {errors.taskDetails && <span className={warningText}>Add description of the task (Maximum 1200 characters).</span>}
                     </div>
                     {/* Title of the Task */}
                     <div className="col-span-12">
@@ -134,21 +134,21 @@ const AddJob = () => {
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="taskDay" title="Day" />
                       <input type="text" placeholder="01.01.2022" name="taskDay" id="taskDay" {...register("taskDay", { required: true, pattern: /^\d{2}\.\d{2}\.\d{4}$/ })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskDay && <span className={warningText}>Day is required. (Format: 22.11.2022)</span>}
+                      {errors.taskDay && <span className={warningText}>Set task starting day (Eg: 22.11.2022).</span>}
                     </div>
 
                     {/* Duration*/}
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="taskDuration" title="Duration" />
                       <input type="text" placeholder="In Hours" name="taskDuration" id="taskDuration" {...register("taskDuration", { required: true, pattern: /^[0-9]+$/i })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskDuration && <span className={warningText}>Duration is required (Only numbers allowed).</span>}
+                      {errors.taskDuration && <span className={warningText}>Set the duration of task (Eg: 1).</span>}
                     </div>
 
                     {/* Duration of the Task */}
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="taskPrice" title="Price" />
                       <input type="text" placeholder="In Euros" name="taskPrice" id="taskPrice" {...register("taskPrice", { required: true, pattern: /^[0-9.]+$/i })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.taskPrice && <span className={warningText}>Price is required (Only numbers allowed).</span>}
+                      {errors.taskPrice && <span className={warningText}>Set a price (Eg: 10).</span>}
                     </div>
 
                     {/* Location */}
@@ -159,13 +159,17 @@ const AddJob = () => {
                         <option value="Helsinki">Helsinki</option>
                         <option value="Tampere">Tampere</option>
                       </select>
-                      {errors.city && <span className={warningText}>Location is required.</span>}
+                      {errors.city && <span className={warningText}>Select your location.</span>}
                     </div>
 
                     {/* Terms */}
                     <div className="col-span-12">
                       <p>
-                        <input name="agree" id="agree" type="checkbox" className="inline" {...register("agree", { required: true })} value="" /> I agree to <Link to="#">terms</Link> and conditions.
+                        <input name="agree" id="agree" type="checkbox" className="inline" {...register("agree", { required: true })} value="" /> I agree to{" "}
+                        <Link to="#" className="text-green-500 hover:text-green-900">
+                          terms
+                        </Link>{" "}
+                        and conditions.
                       </p>
                       {errors.agree && <span className={warningText}>Please agree terms and conditions.</span>}
                     </div>
@@ -176,7 +180,7 @@ const AddJob = () => {
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="firstName" title="First Name" />
                       <input type="text" placeholder="John" name="firstName" id="firstName" {...register("firstName", { required: true })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.firstName && <span className={warningText}>First Name is required</span>}{" "}
+                      {errors.firstName && <span className={warningText}>Add your first name.</span>}{" "}
                     </div>
                     {/* Last Name */}
                     <div className="col-span-12 md:col-span-6">
@@ -198,18 +202,18 @@ const AddJob = () => {
                         className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2"
                       />
 
-                      {errors.email && <span className={warningText}>Email is required</span>}
+                      {errors.email && <span className={warningText}>Add a valid email.</span>}
                     </div>
                     {/* Contact */}
                     <div className="col-span-12 md:col-span-6">
                       <FormLabel id="contact" title="Phone" />
-                      <input type="text" placeholder="+3484412132" name="contact" id="contact" {...register("contact", { required: true })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
-                      {errors.contact && <span className={warningText}>Phone is required</span>}
+                      <input type="text" placeholder="+3484412132" name="contact" id="contact" {...register("contact", { required: true, pattern: /^\+?[1-9][0-9]{7,14}$/ })} className="p-2 mt-1 block w-full rounded border-2 border-gray-500 focus:border-2" />
+                      {errors.contact && <span className={warningText}>Phone is required. Eg: 04652298xx</span>}
                     </div>
                   </div>
                 </div>
                 <div className="col-span-12 bg-gray-50 px-4 py-3 text-center sm:px-6">
-                  {/* <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} /> */}
+                  <ReCAPTCHA sitekey={sitekey} onChange={recaptchaOnChange} />
 
                   <button disabled={!captchaVerified} type="submit" className={`rounded cursor-pointer p-2 mt-3 text-dark font-bold  w-1/2 block ${!captchaVerified ? "bg-gray-200" : "bg-Green-500"} hover:${!captchaVerified ? "bg-brightRed" : "bg-Green-100"} md: px-8 inline-block`}>
                     Post
