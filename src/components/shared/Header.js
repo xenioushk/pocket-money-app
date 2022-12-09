@@ -16,7 +16,7 @@ const Header = () => {
           </div>
 
           <div className="space-x-6 text-right md:flex">
-            <Link to="/add-job" className="bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block">
+            <Link to="/add-job" className="bg-Green-500 text-dark font-bold  text-underline-none p-2 block hover:bg-Green-100 md:px-4 py-2 inline-block rounded">
               Post A Task
             </Link>
           </div>
