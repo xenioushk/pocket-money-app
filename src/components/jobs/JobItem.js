@@ -42,7 +42,7 @@ const JobItem = (props) => {
             </div>
           </div>
           <div className="text-right relative">
-            <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 sm:text-xl xl:font-bold md:p-3">{props.job.price ? props.job.price : 0} &euro;</span>
+            <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 md:text-sm md:font-bold md:p-3 md:top-3 lg:font-bold lg:-top-3 lg:text-lg">{props.job.price ? props.job.price : 0} &euro;</span>
           </div>
         </div>
       ) : (
