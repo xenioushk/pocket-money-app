@@ -1,5 +1,7 @@
 # Pocket Money React Application
 
+A React application designed to manage micro jobs. Users can easily post and manage jobs directly from the front end, providing a streamlined and efficient way to handle small tasks and earn pocket money.
+
 You can check demo in here: [https://pocket-money-23.netlify.app/](https://pocket-money-23.netlify.app/)
 
 # Instructions
