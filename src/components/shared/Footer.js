@@ -7,7 +7,7 @@ const Footer = () => {
       <section className="mt-6 border-t-2 border-black-500">
         <div className="container flex flex-col-reverse items-center justify-between mx-auto md:flex-row py-6 ">
           <div className="text-left md:w-1/2">
-            <p>Copyright &copy; 2023. All Rights Reserved.</p>
+            <p>Copyright &copy; 2023-2024. All Rights Reserved.</p>
           </div>
           <div className="space-x-6 mb-3 md:w-1/2 text-right">
             <Link to="/" className="text-gray-700 hover:text-gray-800">
