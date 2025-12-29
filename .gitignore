@@ -25,3 +25,14 @@ yarn-error.log*
 
 build
 .env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.code-workspace
+
+backend_todos.md
+frontend_todos.md
