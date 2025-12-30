@@ -1,12 +1,9 @@
 import React, { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
-import { useToast } from "../../hooks/useToast"
 
 const Login: React.FC = () => {
-  const navigate = useNavigate()
   const { login } = useAuth()
-  const toast = useToast()
 
   const [formData, setFormData] = useState({
     email: "",
@@ -14,6 +11,7 @@ const Login: React.FC = () => {
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [generalError, setGeneralError] = useState("")
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -45,6 +43,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setGeneralError("")
 
     if (!validateForm()) {
       return
@@ -54,11 +53,10 @@ const Login: React.FC = () => {
 
     try {
       await login(formData.email, formData.password)
-      toast.success("Login successful!")
-      navigate("/")
+      // Redirect to profile after successful login
+      window.location.href = "/profile"
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed. Please try again.")
-    } finally {
+      setGeneralError(error.response?.data?.message || error.message || "Login failed. Please check your credentials and try again.")
       setIsLoading(false)
     }
   }
@@ -79,13 +77,23 @@ const Login: React.FC = () => {
 
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {generalError && (
+            <div className="rounded-md bg-red-50 p-4">
+              <div className="flex">
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">{generalError}</h3>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="rounded-md shadow-sm space-y-4">
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
-              <input id="email" name="email" type="email" autoComplete="email" value={formData.email} onChange={handleChange} className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.email ? "border-red-300" : "border-gray-300"} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`} placeholder="Email address" />
+              <input id="email" name="email" type="text" autoComplete="off" value={formData.email} onChange={handleChange} className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${errors.email ? "border-red-300" : "border-gray-300"} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`} placeholder="your.email@example.com" />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 

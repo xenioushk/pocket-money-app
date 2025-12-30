@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
         <div className="bg-white shadow rounded-lg p-6 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user?.firstName}!</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user?.first_name}!</h1>
           <p className="text-gray-600">Manage your jobs, applications, and profile from your dashboard.</p>
         </div>
 

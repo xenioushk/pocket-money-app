@@ -30,7 +30,7 @@ const JobItem = ({ job, single = false }: JobItemProps) => {
     <div className="bg-Gray-300 space-y-2 border-2 border-bg-Gray-300 mb-4 p-2 md:p-8 mb-0" key={job.id}>
       <h2 className="text-2xl font-bold mb-3">
         {!single ? (
-          <Link to={`/job/${job.job_hash}`} className="transition text-Green-900 hover:text-black">
+          <Link to={`/job/${job.id}`} className="transition text-Green-900 hover:text-black">
             {job.title}
           </Link>
         ) : (
@@ -43,14 +43,14 @@ const JobItem = ({ job, single = false }: JobItemProps) => {
           <div className="col-span-3">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-y-2 gap-x-1">
               <p>Day: {job.created_at}</p>
-              <p>Location: {job.location}</p>
-              <p>Duration: {job.price} hour{job.price > 1 ? "s" : ""}</p>
+              <p>Location: {job.city}</p>
+              <p>
+                Duration: {job.price} hour{job.price > 1 ? "s" : ""}
+              </p>
             </div>
           </div>
           <div className="text-right relative">
-            <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 md:text-sm md:font-bold md:p-3 md:top-3 lg:font-bold lg:-top-3 lg:text-lg">
-              {job.price || 0} &euro;
-            </span>
+            <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 md:text-sm md:font-bold md:p-3 md:top-3 lg:font-bold lg:-top-3 lg:text-lg">{job.price || 0} &euro;</span>
           </div>
         </div>
       ) : (
@@ -62,23 +62,20 @@ const JobItem = ({ job, single = false }: JobItemProps) => {
             <div className="col-span-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-1">
                 <p>Day: {job.created_at}</p>
-                <p>Location: {job.location}</p>
-                <p>Duration: {job.price} hour{job.price > 1 ? "s" : ""}</p>
-                <p>Category: {job.category}</p>
+                <p>Location: {job.city}</p>
+                <p>
+                  Duration: {job.price} hour{job.price > 1 ? "s" : ""}
+                </p>
+                <p>Category: {job.category_name}</p>
               </div>
             </div>
             <div className="text-right relative">
-              <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 sm:text-xl sm:font-bold md:p-3 md:top-1">
-                {job.price || 0} &euro;
-              </span>
+              <span className="text-sm absolute right-0 top-3 shadow-3xl px-2 py-2 font-nomal place-self-center rounded bg-Gray-900 sm:text-xl sm:font-bold md:p-3 md:top-1">{job.price || 0} &euro;</span>
             </div>
           </div>
 
           <div className="flex justify-end">
-            <button 
-              className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" 
-              onClick={showContactDetails}
-            >
+            <button className="inline-block px-4 py-2 bg-Green-500 text-white hover:bg-Green-900 text-black mt-6" onClick={showContactDetails}>
               Contact Details
             </button>
           </div>
@@ -96,7 +93,7 @@ const JobItem = ({ job, single = false }: JobItemProps) => {
                 <strong>Posted By:</strong> {job.user_id}
               </p>
               <p className="mb-6">
-                <strong>Location:</strong> {job.location}
+                <strong>Location:</strong> {job.city}
               </p>
             </>
           )}

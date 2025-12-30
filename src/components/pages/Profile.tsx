@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import { useAuth } from "../../hooks/useAuth"
-import { useToast } from "../../hooks/useToast"
 
 const Profile: React.FC = () => {
   const { user, updateUser } = useAuth()
-  const toast = useToast()
 
   const [isEditing, setIsEditing] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
+    firstName: user?.first_name || "",
+    lastName: user?.last_name || "",
     email: user?.email || "",
     phone: user?.phone || "",
   })
@@ -21,21 +21,25 @@ const Profile: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSuccessMessage("")
+    setErrorMessage("")
 
     try {
       // In a real app, this would call an API to update the user
       updateUser(formData)
-      toast.success("Profile updated successfully!")
+      setSuccessMessage("Profile updated successfully!")
       setIsEditing(false)
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000)
     } catch (error) {
-      toast.error("Failed to update profile")
+      setErrorMessage("Failed to update profile")
     }
   }
 
   const handleCancel = () => {
     setFormData({
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
+      firstName: user?.first_name || "",
+      lastName: user?.last_name || "",
       email: user?.email || "",
       phone: user?.phone || "",
     })
@@ -68,18 +72,38 @@ const Profile: React.FC = () => {
 
           {/* Profile Content */}
           <div className="px-6 py-6">
+            {successMessage && (
+              <div className="mb-4 rounded-md bg-green-50 p-4">
+                <div className="flex">
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-green-800">{successMessage}</h3>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {errorMessage && (
+              <div className="mb-4 rounded-md bg-red-50 p-4">
+                <div className="flex">
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-red-800">{errorMessage}</h3>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {!isEditing ? (
               // View Mode
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                    <p className="text-gray-900 text-lg">{user.firstName}</p>
+                    <p className="text-gray-900 text-lg">{user.first_name}</p>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                    <p className="text-gray-900 text-lg">{user.lastName}</p>
+                    <p className="text-gray-900 text-lg">{user.last_name}</p>
                   </div>
 
                   <div>

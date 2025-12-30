@@ -1,110 +1,165 @@
 import api from "./api"
-import type { Job, JobFormData, ApiResponse, PaginatedResponse, SearchParams } from "../types"
+import type { Job, JobFormData, PaginatedResponse, JobQueryParams } from "../types"
 
 /**
  * Job Service - Handles all job-related API calls
- * Ready for new backend integration - just update endpoints
+ * Integrated with new Node.js backend
  */
 
 const jobService = {
   /**
-   * Get all jobs with pagination and optional category filter
+   * Get all jobs with filters and pagination
    */
-  getJobs: async (page: number = 1, limit: number = 4, catSlug: string | null = null): Promise<PaginatedResponse<Job>> => {
+  getJobs: async (params: JobQueryParams = {}): Promise<PaginatedResponse<Job>> => {
     try {
-      const catFilter = catSlug ? `&catslug=${catSlug}` : ""
-      const response = await api.get<PaginatedResponse<Job>>(`/wp-json/pmapi/v1/jobs?limit=${limit}&page=${page}${catFilter}`)
+      const queryParams = new URLSearchParams()
+
+      if (params.category_id) queryParams.append("category_id", params.category_id.toString())
+      if (params.city) queryParams.append("city", params.city)
+      if (params.status) queryParams.append("status", params.status)
+      if (params.min_price) queryParams.append("min_price", params.min_price.toString())
+      if (params.max_price) queryParams.append("max_price", params.max_price.toString())
+      if (params.page) queryParams.append("page", params.page.toString())
+      if (params.limit) queryParams.append("limit", params.limit.toString())
+      if (params.search) queryParams.append("search", params.search)
+
+      const response = await api.get<PaginatedResponse<Job>>(`/api/jobs?${queryParams.toString()}`)
       return response.data
-    } catch (error) {
-      throw error
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Get single job by ID
    */
-  getJobById: async (jobId: string): Promise<Job> => {
+  getJobById: async (jobId: number): Promise<Job> => {
     try {
-      const response = await api.get<Job>(`/wp-json/pmapi/v1/job?p_id=${jobId}`)
-      return response.data
-    } catch (error) {
-      throw error
+      const response = await api.get<{ success: boolean; data: Job }>(`/api/jobs/${jobId}`)
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Create a new job
    */
-  createJob: async (jobData: JobFormData): Promise<ApiResponse<Job>> => {
+  createJob: async (jobData: JobFormData): Promise<Job> => {
     try {
-      const response = await api.post<ApiResponse<Job>>("/wp-json/pmapi/v1/create", jobData)
-      return response.data
-    } catch (error) {
-      throw error
+      console.log("Creating job with data:", jobData)
+      const response = await api.post<{ success: boolean; data: Job }>("/api/jobs", jobData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      console.log("Job created response:", response.data)
+      return response.data.data
+    } catch (error: any) {
+      console.error("Create job error:", error.response?.data)
+      throw error.response?.data || error
     }
   },
 
   /**
    * Update an existing job
    */
-  updateJob: async (jobData: Partial<Job> & { jobId: string }): Promise<ApiResponse<Job>> => {
+  updateJob: async (jobId: number, jobData: Partial<JobFormData>): Promise<Job> => {
     try {
-      const response = await api.post<ApiResponse<Job>>("/wp-json/pmapi/v1/edit", jobData)
-      return response.data
-    } catch (error) {
-      throw error
+      const response = await api.put<{ success: boolean; data: Job }>(`/api/jobs/${jobId}`, jobData)
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Delete a job
    */
-  deleteJob: async (jobId: string): Promise<ApiResponse<void>> => {
+  deleteJob: async (jobId: number): Promise<void> => {
     try {
-      const response = await api.delete<ApiResponse<void>>("/wp-json/pmapi/v1/delete", {
-        data: { jobId },
+      await api.delete(`/api/jobs/${jobId}`)
+    } catch (error: any) {
+      throw error.response?.data || error
+    }
+  },
+
+  /**
+   * Update job status
+   */
+  updateJobStatus: async (jobId: number, status: string): Promise<Job> => {
+    try {
+      const response = await api.patch<{ success: boolean; data: Job }>(`/api/jobs/${jobId}/status`, { status })
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
+    }
+  },
+
+  /**
+   * Get jobs by user
+   */
+  getUserJobs: async (userId: number): Promise<Job[]> => {
+    try {
+      const response = await api.get<{ success: boolean; data: Job[] }>(`/api/jobs/user/${userId}`)
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
+    }
+  },
+
+  /**
+   * Upload images for a job
+   */
+  uploadJobImages: async (jobId: number, images: File[]): Promise<any> => {
+    try {
+      const formData = new FormData()
+      images.forEach((image) => {
+        formData.append("images", image)
       })
-      return response.data
-    } catch (error) {
-      throw error
+
+      const response = await api.post(`/api/jobs/${jobId}/images`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
-   * Search jobs
+   * Get job images
    */
-  searchJobs: async (searchTerm: string): Promise<Job[]> => {
+  getJobImages: async (jobId: number): Promise<any[]> => {
     try {
-      const response = await api.get<Job[]>(`/wp-json/pmapi/v1/search?s=${searchTerm}`)
-      return response.data
-    } catch (error) {
-      throw error
+      const response = await api.get<{ success: boolean; data: any[] }>(`/api/jobs/${jobId}/images`)
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
-   * Get jobs by user (when backend is ready)
+   * Delete job image
    */
-  getUserJobs: async (userId: string): Promise<Job[]> => {
+  deleteJobImage: async (jobId: number, imageId: number): Promise<void> => {
     try {
-      // This will be implemented when new backend is ready
-      // const response = await api.get(`/api/jobs/user/${userId}`)
-      throw new Error("getUserJobs: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+      await api.delete(`/api/jobs/${jobId}/images/${imageId}`)
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
-   * Update job status (when backend is ready)
+   * Set primary image
    */
-  updateJobStatus: async (jobId: string, status: string): Promise<ApiResponse<Job>> => {
+  setPrimaryImage: async (jobId: number, imageId: number): Promise<void> => {
     try {
-      // This will be implemented when new backend is ready
-      // const response = await api.patch(`/api/jobs/${jobId}/status`, { status })
-      throw new Error("updateJobStatus: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+      await api.patch(`/api/jobs/${jobId}/images/${imageId}/primary`)
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 }

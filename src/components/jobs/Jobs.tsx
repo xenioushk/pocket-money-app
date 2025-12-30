@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import JobItem from "./JobItem"
-import axios from "axios"
 import loader from "../../loader.gif"
 import Breadcrumb from "../base/Breadcrumb"
 import { Job } from "../../types"
+import jobService from "../../services/jobService"
 
 interface JobsProps {
   catSlug?: string
@@ -21,27 +21,33 @@ const Jobs = ({ catSlug }: JobsProps) => {
   const [loadMoreBtnDisabled, setLoadMoreBtnDisabled] = useState(false)
 
   useEffect(() => {
-    const catFilter = catSlug ? `&catslug=${catSlug}` : ""
-    const apiLink = `/wp-json/pmapi/v1/jobs?limit=4&&page=${page}${catFilter}`
-
-    const fetchData = () => {
-      axios
-        .get(apiLink)
-        .then((res) => {
-          setLoadMoreBtnText("Load More")
-          setLoadMoreBtnDisabled(false)
-          setMaxPages(res.data.max_pages)
-          setIsLoaded(true)
-          setStatus(res.data.status)
-
-          if (catSlug) {
-            setCateName(res.data.cat_name)
-          }
-
-          setLoadMoreBtn(res.data.max_pages > 1)
-          setJobs((prev) => prev.concat(res.data.job_data))
+    const fetchData = async () => {
+      try {
+        const response = await jobService.getJobs({
+          page,
+          limit: 4,
+          category_id: catSlug ? parseInt(catSlug) : undefined,
+          status: "approved",
         })
-        .catch((err) => console.error("Failed to fetch jobs:", err))
+
+        setLoadMoreBtnText("Load More")
+        setLoadMoreBtnDisabled(false)
+        setMaxPages(response.pagination.pages)
+        setIsLoaded(true)
+        setStatus(response.data.length > 0)
+
+        // Get category name if filtering by category
+        if (catSlug && response.data.length > 0) {
+          setCateName(response.data[0].category_name || "")
+        }
+
+        setLoadMoreBtn(response.pagination.pages > 1)
+        setJobs((prev) => prev.concat(response.data))
+      } catch (err) {
+        console.error("Failed to fetch jobs:", err)
+        setIsLoaded(true)
+        setStatus(false)
+      }
     }
 
     fetchData()
