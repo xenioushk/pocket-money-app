@@ -48,6 +48,7 @@ export interface Category {
   slug: string
   description?: string
   created_at: string
+  count?: number
 }
 
 // User Types

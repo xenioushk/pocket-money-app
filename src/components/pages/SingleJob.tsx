@@ -49,7 +49,7 @@ const SingleJob = () => {
       {isLoaded ? (
         <div className="grid grid-cols-1 gap-y-4 mt-4">
           <Breadcrumb title={jobTitle} category={jobCategory} catSlug={jobCategorySlug} />
-          {status === true && singleJob ? <JobItem job={singleJob} single={true} /> : <AlertMessage type="warning" title="No Job Post Found!" />}
+          <div className="max-w-4xl mx-auto w-full">{status === true && singleJob ? <JobItem job={singleJob} single={true} /> : <AlertMessage type="warning" title="No Job Post Found!" />}</div>
         </div>
       ) : (
         <div className="grid justify-items-center">

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import JobCategories from "./JobCategories"
 import { useCreateJob } from "../../hooks/useJobs"
 import { useAuth } from "../../hooks/useAuth"
+import { useToast } from "../../hooks/useToast"
 import jobService from "../../services/jobService"
 
 interface JobFormInputs {
@@ -21,6 +22,7 @@ const AddJob = () => {
   document.title = "Add A New Job | Pocket Money"
 
   const { user, isAuthenticated } = useAuth()
+  const toast = useToast()
   const createJobMutation = useCreateJob()
   const [taskDetails, setTaskDetails] = useState("")
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -141,7 +143,7 @@ const AddJob = () => {
 
       // Show success message
       setPostLimitError("")
-      alert("Job posted successfully! It will be reviewed before being published.")
+      toast.success("Job posted successfully! It will be reviewed before being published.")
     } catch (error: any) {
       console.error("Failed to create job:", error)
       console.error("Error details:", error.response?.data)
