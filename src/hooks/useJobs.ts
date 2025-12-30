@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient, UseQueryOptions } from "@tanstack/react-query"
-import { toast } from "react-toastify"
 import jobService from "../services/jobService"
 import type { Job, JobFormData, PaginatedResponse } from "../types"
 
@@ -14,12 +13,29 @@ export const jobKeys = {
 }
 
 /**
+ * Hook to search jobs
+ */
+export const useSearchJobs = (searchTerm: string) => {
+  return useQuery({
+    queryKey: jobKeys.search(searchTerm),
+    queryFn: () => jobService.getJobs({ search: searchTerm, limit: 10 }),
+    enabled: searchTerm.length >= 3,
+    staleTime: 2 * 60 * 1000,
+  })
+}
+
+/**
  * Hook to fetch paginated jobs
  */
 export const useJobs = (page: number = 1, limit: number = 4, catSlug: string | null = null, options?: Omit<UseQueryOptions<PaginatedResponse<Job>>, "queryKey" | "queryFn">) => {
   return useQuery({
     queryKey: jobKeys.list(page, limit, catSlug),
-    queryFn: () => jobService.getJobs(page, limit, catSlug),
+    queryFn: () =>
+      jobService.getJobs({
+        page,
+        limit,
+        ...(catSlug && { category_id: parseInt(catSlug) }),
+      }),
     staleTime: 5 * 60 * 1000, // 5 minutes
     ...options,
   })
@@ -31,22 +47,10 @@ export const useJobs = (page: number = 1, limit: number = 4, catSlug: string | n
 export const useJob = (jobId: string, options?: Omit<UseQueryOptions<Job>, "queryKey" | "queryFn">) => {
   return useQuery({
     queryKey: jobKeys.detail(jobId),
-    queryFn: () => jobService.getJobById(jobId),
+    queryFn: () => jobService.getJobById(parseInt(jobId)),
     enabled: !!jobId,
     staleTime: 5 * 60 * 1000,
     ...options,
-  })
-}
-
-/**
- * Hook to search jobs with debounced query
- */
-export const useSearchJobs = (searchTerm: string) => {
-  return useQuery({
-    queryKey: jobKeys.search(searchTerm),
-    queryFn: () => jobService.searchJobs(searchTerm),
-    enabled: searchTerm.length > 2, // Only search if term is 3+ characters
-    staleTime: 2 * 60 * 1000, // 2 minutes for search results
   })
 }
 
@@ -61,10 +65,6 @@ export const useCreateJob = () => {
     onSuccess: () => {
       // Invalidate and refetch jobs list
       queryClient.invalidateQueries({ queryKey: jobKeys.lists() })
-      toast.success("Job created successfully!")
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Failed to create job")
     },
   })
 }
@@ -76,15 +76,11 @@ export const useUpdateJob = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (jobData: Partial<Job> & { jobId: string }) => jobService.updateJob(jobData),
+    mutationFn: ({ jobId, jobData }: { jobId: number; jobData: Partial<JobFormData> }) => jobService.updateJob(jobId, jobData),
     onSuccess: (_, variables) => {
       // Invalidate specific job and lists
-      queryClient.invalidateQueries({ queryKey: jobKeys.detail(variables.jobId) })
+      queryClient.invalidateQueries({ queryKey: jobKeys.detail(variables.jobId.toString()) })
       queryClient.invalidateQueries({ queryKey: jobKeys.lists() })
-      toast.success("Job updated successfully!")
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Failed to update job")
     },
   })
 }
@@ -96,27 +92,26 @@ export const useDeleteJob = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (jobId: string) => jobService.deleteJob(jobId),
+    mutationFn: (jobId: number) => jobService.deleteJob(jobId),
     onMutate: async (jobId) => {
+      const jobIdStr = jobId.toString()
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: jobKeys.detail(jobId) })
+      await queryClient.cancelQueries({ queryKey: jobKeys.detail(jobIdStr) })
 
       // Snapshot previous value
-      const previousJob = queryClient.getQueryData(jobKeys.detail(jobId))
+      const previousJob = queryClient.getQueryData(jobKeys.detail(jobIdStr))
 
       // Return context with snapshot
-      return { previousJob, jobId }
+      return { previousJob, jobId: jobIdStr }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: jobKeys.lists() })
-      toast.success("Job deleted successfully!")
     },
-    onError: (error: any, _, context) => {
+    onError: (_error: any, _jobId, context) => {
       // Rollback on error
       if (context?.previousJob) {
         queryClient.setQueryData(jobKeys.detail(context.jobId), context.previousJob)
       }
-      toast.error(error.response?.data?.message || "Failed to delete job")
     },
   })
 }
@@ -130,7 +125,12 @@ export const usePrefetchJobs = () => {
   return (page: number, limit: number = 4, catSlug: string | null = null) => {
     queryClient.prefetchQuery({
       queryKey: jobKeys.list(page, limit, catSlug),
-      queryFn: () => jobService.getJobs(page, limit, catSlug),
+      queryFn: () =>
+        jobService.getJobs({
+          page,
+          limit,
+          ...(catSlug && { category_id: parseInt(catSlug) }),
+        }),
       staleTime: 5 * 60 * 1000,
     })
   }

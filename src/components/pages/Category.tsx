@@ -1,20 +1,24 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
+import SearchBox from "../search/SearchBox"
 import Jobs from "../jobs/Jobs"
 import Page from "./Page"
 import { useParams } from "react-router-dom"
-// import Breadcrumb from "../base/Breadcrumb"
+import JobsLayout from "../layout/JobsLayout"
 
 const Category = () => {
-  // console.log(params.id)
   const params = useParams()
-  const [catSlug, setcatSlug] = useState(params.catSlug)
+  const categoryId = params.catSlug ? parseInt(params.catSlug) : undefined
+
   useEffect(() => {
-    setcatSlug(params.catSlug)
-    document.title = `All ${params.catSlug.replace("-", " ")} jobs | Pocket Money`
+    document.title = `Category Jobs | Pocket Money`
   }, [params.catSlug])
+
   return (
     <Page title="Category">
-      <Jobs catSlug={`${catSlug}`} />
+      <SearchBox />
+      <JobsLayout selectedCategoryId={categoryId}>
+        <Jobs catSlug={params.catSlug} />
+      </JobsLayout>
     </Page>
   )
 }

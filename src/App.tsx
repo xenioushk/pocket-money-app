@@ -8,6 +8,7 @@ import Header from "./components/shared/Header"
 import Footer from "./components/shared/Footer"
 import ErrorBoundary from "./components/base/ErrorBoundary"
 import PrivateRoute from "./components/base/PrivateRoute"
+import AdminRoute from "./components/base/AdminRoute"
 import { AuthProvider } from "./context/AuthContext"
 import { ThemeProvider } from "./context/ThemeContext"
 import loader from "./loader.gif"
@@ -36,6 +37,10 @@ const Login = lazy(() => import("./components/pages/Login"))
 const Register = lazy(() => import("./components/pages/Register"))
 const Profile = lazy(() => import("./components/pages/Profile"))
 const Dashboard = lazy(() => import("./components/pages/Dashboard"))
+const MyJobs = lazy(() => import("./components/pages/MyJobs"))
+const AdminDashboard = lazy(() => import("./components/pages/AdminDashboard"))
+const CreateUser = lazy(() => import("./components/pages/CreateUser"))
+const ManageCategories = lazy(() => import("./components/pages/ManageCategories"))
 
 // Loading fallback component
 const PageLoader: React.FC = () => (
@@ -51,7 +56,7 @@ function App() {
         <AuthProvider>
           <ThemeProvider>
             <BrowserRouter>
-              <ToastContainer position="top-center" autoClose={3000} />
+              <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" className="!mt-16" />
               <Header />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
@@ -91,11 +96,45 @@ function App() {
                     }
                   />
                   <Route
-                    path="/job/edit/:jobHash/:jobId"
+                    path="/my-jobs"
+                    element={
+                      <PrivateRoute>
+                        <MyJobs />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/edit-job/:jobId"
                     element={
                       <PrivateRoute>
                         <EditJob />
                       </PrivateRoute>
+                    }
+                  />
+
+                  {/* Admin Routes */}
+                  <Route
+                    path="/admin"
+                    element={
+                      <AdminRoute>
+                        <AdminDashboard />
+                      </AdminRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/create-user"
+                    element={
+                      <AdminRoute>
+                        <CreateUser />
+                      </AdminRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/categories"
+                    element={
+                      <AdminRoute>
+                        <ManageCategories />
+                      </AdminRoute>
                     }
                   />
                 </Routes>

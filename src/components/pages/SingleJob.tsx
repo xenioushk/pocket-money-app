@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import JobItem from "../jobs/JobItem"
 import AlertMessage from "../base/AlertMessage"
-import axios from "axios"
 import loader from "../../loader.gif"
 import Breadcrumb from "../base/Breadcrumb"
+import jobService from "../../services/jobService"
+import { Job } from "../../types"
 
 const SingleJob = () => {
   // get ID from url
@@ -13,7 +14,7 @@ const SingleJob = () => {
   // console.log(params.id) // {userId: '4200'}
 
   const [isLoaded, setIsLoaded] = useState(false)
-  const [singleJob, setSingleJob] = useState([])
+  const [singleJob, setSingleJob] = useState<Job | null>(null)
   const [postId] = useState(params.id)
   const [jobTitle, setJobTitle] = useState("")
   const [jobCategory, setJobCategory] = useState("")
@@ -21,21 +22,23 @@ const SingleJob = () => {
   const [status, setStatus] = useState(false)
 
   useEffect(() => {
-    // GET request using axios inside useEffect React hook
-    // const postId = {id: "[hexValue]", token: "[userToken]"}
-    const fetchData = () => {
-      axios
-        .get(`/wp-json/pmapi/v1/job?p_id=${postId}`)
-        .then((res) => {
-          setIsLoaded(true)
-          setStatus(res.data.status)
-          setJobTitle(res.data.job_data[0].title)
-          setJobCategory(res.data.job_data[0].category)
-          setJobCategorySlug(res.data.job_data[0].cat_slug)
-          setSingleJob((prev) => prev.concat(res.data.job_data))
-          document.title = `${res.data.job_data[0].title} | Pocket Money`
-        })
-        .catch((err) => console.log(err))
+    const fetchData = async () => {
+      try {
+        if (!postId) return
+
+        const job = await jobService.getJobById(parseInt(postId))
+        setIsLoaded(true)
+        setStatus(true)
+        setJobTitle(job.title)
+        setJobCategory(job.category_name || "")
+        setJobCategorySlug(job.category_id.toString())
+        setSingleJob(job)
+        document.title = `${job.title} | Pocket Money`
+      } catch (err) {
+        console.error(err)
+        setIsLoaded(true)
+        setStatus(false)
+      }
     }
 
     fetchData()
@@ -46,7 +49,7 @@ const SingleJob = () => {
       {isLoaded ? (
         <div className="grid grid-cols-1 gap-y-4 mt-4">
           <Breadcrumb title={jobTitle} category={jobCategory} catSlug={jobCategorySlug} />
-          {status === true ? singleJob.map((job, index) => <JobItem key={index} job={job} single={true} />) : <AlertMessage type="warning" title="No Job Post Found!" />}
+          <div className="max-w-4xl mx-auto w-full">{status === true && singleJob ? <JobItem job={singleJob} single={true} /> : <AlertMessage type="warning" title="No Job Post Found!" />}</div>
         </div>
       ) : (
         <div className="grid justify-items-center">

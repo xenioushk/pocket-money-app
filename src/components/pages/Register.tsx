@@ -1,12 +1,9 @@
 import React, { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
-import { useToast } from "../../hooks/useToast"
 
 const Register: React.FC = () => {
-  const navigate = useNavigate()
   const { register } = useAuth()
-  const toast = useToast()
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -18,6 +15,7 @@ const Register: React.FC = () => {
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [generalError, setGeneralError] = useState("")
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -65,6 +63,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setGeneralError("")
 
     if (!validateForm()) {
       return
@@ -80,11 +79,10 @@ const Register: React.FC = () => {
         lastName: formData.lastName,
         phone: formData.phone || undefined,
       })
-      toast.success("Registration successful!")
-      navigate("/")
+      // Redirect to profile after successful registration
+      window.location.href = "/profile"
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Registration failed. Please try again.")
-    } finally {
+      setGeneralError(error.response?.data?.message || "Registration failed. Please try again.")
       setIsLoading(false)
     }
   }
@@ -105,6 +103,16 @@ const Register: React.FC = () => {
 
         {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {generalError && (
+            <div className="rounded-md bg-red-50 p-4">
+              <div className="flex">
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">{generalError}</h3>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="space-y-4">
             {/* First Name */}
             <div>

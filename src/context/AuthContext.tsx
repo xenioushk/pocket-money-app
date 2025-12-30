@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react"
-import { useLocalStorage } from "../hooks/useLocalStorage"
 import authService from "../services/authService"
 import type { User } from "../types"
 
@@ -30,36 +29,51 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
-  const [token, setToken, removeToken] = useLocalStorage<string | null>("authToken", null)
+  const [token, setTokenState] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   const isAuthenticated = !!user && !!token
 
-  // Load user from token on mount
+  // Helper function to set token (stores directly without JSON.stringify)
+  const setToken = (newToken: string | null) => {
+    setTokenState(newToken)
+    if (newToken) {
+      localStorage.setItem("token", newToken)
+    } else {
+      localStorage.removeItem("token")
+    }
+  }
+
+  // Load user and token from localStorage on mount
   useEffect(() => {
-    const loadUser = async () => {
-      if (token) {
+    const loadUser = () => {
+      const storedToken = localStorage.getItem("token")
+      const storedUser = localStorage.getItem("user")
+      
+      if (storedToken && storedUser) {
         try {
-          // Verify token and get user data
-          const userData = await authService.getCurrentUser()
-          setUser(userData)
+          setTokenState(storedToken)
+          setUser(JSON.parse(storedUser))
         } catch (error) {
-          console.error("Failed to load user:", error)
-          removeToken()
-          setUser(null)
+          console.error("Failed to parse user data:", error)
+          localStorage.removeItem("user")
+          localStorage.removeItem("token")
         }
       }
       setIsLoading(false)
     }
 
     loadUser()
-  }, [token, removeToken])
+    // Only run once on mount
+  }, [])
 
   const login = async (email: string, password: string) => {
     try {
-      const response = (await authService.login(email, password)) as any
-      setToken(response.token)
-      setUser(response.user)
+      const response = await authService.login(email, password)
+      if (response.success && response.data) {
+        setToken(response.data.token)
+        setUser(response.data.user)
+      }
     } catch (error) {
       console.error("Login failed:", error)
       throw error
@@ -68,9 +82,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (userData: RegisterData) => {
     try {
-      const response = (await authService.register(userData)) as any
-      setToken(response.token)
-      setUser(response.user)
+      const response = await authService.register(userData)
+      if (response.success && response.data) {
+        setToken(response.data.token)
+        setUser(response.data.user)
+      }
     } catch (error) {
       console.error("Registration failed:", error)
       throw error
@@ -79,7 +95,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     authService.logout()
-    removeToken()
+    localStorage.removeItem("user")
+    localStorage.removeItem("token")
+    setToken(null)
     setUser(null)
   }
 

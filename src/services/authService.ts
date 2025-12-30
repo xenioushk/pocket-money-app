@@ -3,55 +3,66 @@ import type { AuthResponse, RegisterData, User } from "../types"
 
 /**
  * Authentication Service
- * Ready for new backend integration
+ * Handles user authentication with new Node.js backend
  */
 
 const authService = {
   /**
    * Login user
-   * @param {string} email - User email
-   * @param {string} password - User password
    */
   login: async (email: string, password: string): Promise<AuthResponse> => {
     try {
-      // This will be implemented when new backend is ready
       const response = await api.post<AuthResponse>("/api/auth/login", { email, password })
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token)
+      
+      if (response.data.success && response.data.data) {
+        const { token, refreshToken, user } = response.data.data
+        localStorage.setItem("token", token)
+        localStorage.setItem("refreshToken", refreshToken)
+        localStorage.setItem("user", JSON.stringify(user))
       }
+      
       return response.data
-      // throw new Error("login: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Register new user
-   * @param {object} userData - User registration data
    */
   register: async (userData: RegisterData): Promise<AuthResponse> => {
     try {
-      // This will be implemented when new backend is ready
       const response = await api.post<AuthResponse>("/api/auth/register", userData)
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token)
+      
+      if (response.data.success && response.data.data) {
+        const { token, refreshToken, user } = response.data.data
+        localStorage.setItem("token", token)
+        localStorage.setItem("refreshToken", refreshToken)
+        localStorage.setItem("user", JSON.stringify(user))
       }
+      
       return response.data
-      // throw new Error("register: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Logout user
    */
-  logout: () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("authToken")
-    localStorage.removeItem("user")
-    window.location.href = "/login"
+  logout: async () => {
+    try {
+      // Call backend logout to invalidate tokens
+      await api.post("/api/auth/logout")
+    } catch (error) {
+      console.error("Logout error:", error)
+    } finally {
+      // Clear local storage regardless of API call result
+      localStorage.removeItem("token")
+      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("user")
+      window.location.href = "/login"
+    }
   },
 
   /**
@@ -59,46 +70,45 @@ const authService = {
    */
   getCurrentUser: async (): Promise<User> => {
     try {
-      // This will be implemented when new backend is ready
-      const response = await api.get<User>("/api/users/me")
-      return response.data
-      // throw new Error("getCurrentUser: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+      const response = await api.get<{ success: boolean; data: User }>("/api/auth/me")
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Update user profile
-   * @param {object} userData - Updated user data
    */
   updateProfile: async (userData: Partial<User>): Promise<User> => {
     try {
-      // This will be implemented when new backend is ready
-      const response = await api.put<User>("/api/users/me", userData)
-      return response.data
-      // throw new Error("updateProfile: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+      const response = await api.put<{ success: boolean; data: User }>("/api/users/me", userData)
+      
+      // Update local storage
+      const currentUser = authService.getStoredUser()
+      if (currentUser) {
+        const updatedUser = { ...currentUser, ...response.data.data }
+        localStorage.setItem("user", JSON.stringify(updatedUser))
+      }
+      
+      return response.data.data
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
   /**
    * Change password
-   * @param {string} oldPassword - Current password
-   * @param {string} newPassword - New password
    */
-  changePassword: async (oldPassword: string, newPassword: string): Promise<{ success: boolean; message: string }> => {
+  changePassword: async (currentPassword: string, newPassword: string): Promise<{ success: boolean; message: string }> => {
     try {
-      // This will be implemented when new backend is ready
       const response = await api.patch<{ success: boolean; message: string }>("/api/users/me/password", {
-        oldPassword,
+        currentPassword,
         newPassword,
       })
       return response.data
-      // throw new Error("changePassword: Not yet implemented - waiting for new backend")
-    } catch (error) {
-      throw error
+    } catch (error: any) {
+      throw error.response?.data || error
     }
   },
 
@@ -114,6 +124,14 @@ const authService = {
    */
   getToken: (): string | null => {
     return localStorage.getItem("token")
+  },
+
+  /**
+   * Get stored user
+   */
+  getStoredUser: (): User | null => {
+    const userStr = localStorage.getItem("user")
+    return userStr ? JSON.parse(userStr) : null
   },
 }
 

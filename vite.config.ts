@@ -12,13 +12,6 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
-    proxy: {
-      "/wp-json": {
-        target: "https://pmapi.bluewindlab.com",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
   },
   build: {
     outDir: "build",

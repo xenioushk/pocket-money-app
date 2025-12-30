@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import SearchBox from "../search/SearchBox"
 import Jobs from "../jobs/Jobs"
 import Page from "../pages/Page"
+import JobsLayout from "../layout/JobsLayout"
 
 const Home = () => {
   useEffect(() => {
@@ -10,7 +11,9 @@ const Home = () => {
   return (
     <Page title="Home">
       <SearchBox />
-      <Jobs />
+      <JobsLayout>
+        <Jobs />
+      </JobsLayout>
     </Page>
   )
 }
